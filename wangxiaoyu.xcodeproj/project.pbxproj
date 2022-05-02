@@ -19,9 +19,6 @@
 		D4DF7B4727A29F0400C0F5EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4627A29F0400C0F5EC /* ViewController.swift */; };
 		D4DF7B4F27A29F0500C0F5EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4DF7B4E27A29F0500C0F5EC /* Assets.xcassets */; };
 		D4DF7B5227A29F0500C0F5EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4DF7B5027A29F0500C0F5EC /* LaunchScreen.storyboard */; };
-		D4DF7B5D27A29F0600C0F5EC /* wangxioayuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B5C27A29F0600C0F5EC /* wangxioayuTests.swift */; };
-		D4DF7B6727A29F0600C0F5EC /* wangxioayuUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B6627A29F0600C0F5EC /* wangxioayuUITests.swift */; };
-		D4DF7B6927A29F0600C0F5EC /* wangxioayuUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B6827A29F0600C0F5EC /* wangxioayuUITestsLaunchTests.swift */; };
 		D4DF7B7627A29FA500C0F5EC /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B7527A29FA500C0F5EC /* Tools.swift */; };
 		D4DF7B7827A29FB700C0F5EC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B7727A29FB700C0F5EC /* HomeViewController.swift */; };
 		D4DF7B7A27A29FC400C0F5EC /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B7927A29FC400C0F5EC /* SettingsViewController.swift */; };
@@ -68,10 +65,7 @@
 		D4DF7B5127A29F0500C0F5EC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D4DF7B5327A29F0500C0F5EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D4DF7B5827A29F0600C0F5EC /* wangxiaoyuTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wangxiaoyuTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4DF7B5C27A29F0600C0F5EC /* wangxioayuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wangxioayuTests.swift; sourceTree = "<group>"; };
 		D4DF7B6227A29F0600C0F5EC /* wangxiaoyuUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = wangxiaoyuUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		D4DF7B6627A29F0600C0F5EC /* wangxioayuUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wangxioayuUITests.swift; sourceTree = "<group>"; };
-		D4DF7B6827A29F0600C0F5EC /* wangxioayuUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = wangxioayuUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D4DF7B7527A29FA500C0F5EC /* Tools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tools.swift; sourceTree = "<group>"; };
 		D4DF7B7727A29FB700C0F5EC /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D4DF7B7927A29FC400C0F5EC /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -228,8 +222,6 @@
 			isa = PBXGroup;
 			children = (
 				D4DF7B4127A29F0400C0F5EC /* wangxiaoyu */,
-				D4DF7B5B27A29F0600C0F5EC /* wangxioayuTests */,
-				D4DF7B6527A29F0600C0F5EC /* wangxioayuUITests */,
 				D4DF7B4027A29F0400C0F5EC /* Products */,
 				DE7206E4CDB7BA120F52D368 /* Pods */,
 				E6D769BADDF5E3F7FA19A743 /* Frameworks */,
@@ -264,23 +256,6 @@
 				D4189866281D1D0E00B67A8A /* wangxiaoyu-Bridging-Header.h */,
 			);
 			path = wangxiaoyu;
-			sourceTree = "<group>";
-		};
-		D4DF7B5B27A29F0600C0F5EC /* wangxioayuTests */ = {
-			isa = PBXGroup;
-			children = (
-				D4DF7B5C27A29F0600C0F5EC /* wangxioayuTests.swift */,
-			);
-			path = wangxioayuTests;
-			sourceTree = "<group>";
-		};
-		D4DF7B6527A29F0600C0F5EC /* wangxioayuUITests */ = {
-			isa = PBXGroup;
-			children = (
-				D4DF7B6627A29F0600C0F5EC /* wangxioayuUITests.swift */,
-				D4DF7B6827A29F0600C0F5EC /* wangxioayuUITestsLaunchTests.swift */,
-			);
-			path = wangxioayuUITests;
 			sourceTree = "<group>";
 		};
 		DE7206E4CDB7BA120F52D368 /* Pods */ = {
@@ -517,7 +492,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4DF7B5D27A29F0600C0F5EC /* wangxioayuTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,8 +499,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D4DF7B6927A29F0600C0F5EC /* wangxioayuUITestsLaunchTests.swift in Sources */,
-				D4DF7B6727A29F0600C0F5EC /* wangxioayuUITests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -684,6 +656,7 @@
 				DEVELOPMENT_TEAM = AJD7NPWNRX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = wangxiaoyu/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "萝卜";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -696,7 +669,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.chengliang.wangxioayu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/lunarian/Desktop/wangxioayu/wangxiaoyu/wangxiaoyu-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/$(SWIFT_MODULE_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -713,6 +686,7 @@
 				DEVELOPMENT_TEAM = AJD7NPWNRX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = wangxiaoyu/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "萝卜";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -725,7 +699,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.chengliang.wangxioayu;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = "/Users/lunarian/Desktop/wangxioayu/wangxiaoyu/wangxiaoyu-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/$(SWIFT_MODULE_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
