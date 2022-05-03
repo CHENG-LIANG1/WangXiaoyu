@@ -6,6 +6,8 @@
 	<string>&quot;萝卜&quot; 想要访问你的相册。</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>&quot;萝卜&quot; 想要访问你的相册。</string>
+	<key>NSCameraUsageDescription</key>
+	<string>&quot;萝卜&quot; 想要使用你的相机。</string>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
 		<key>UIApplicationSupportsMultipleScenes</key>

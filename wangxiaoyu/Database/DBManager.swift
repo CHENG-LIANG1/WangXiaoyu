@@ -25,16 +25,7 @@ class DBManager: NSObject {
     let databaseFileName = "movies.sqlite"
     var pathToDatabase: String!
     var database: FMDatabase!
-    
-    let field_MovieID = "movieID"
-    let field_MovieTitle = "title"
-    let field_MovieCategory = "category"
-    let field_MovieYear = "year"
-    let field_MovieURL = "movieURL"
-    let field_MovieCoverURL = "coverURL"
-    let field_MovieWatched = "watched"
-    let field_MovieLikes = "likes"
-    
+
     func getDocumentDirectoryPath() -> URL {
       let arrayPaths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
       let docDirectoryPath = arrayPaths[0]
@@ -43,8 +34,7 @@ class DBManager: NSObject {
     
     override init(){
         super.init()
-        
-       
+    
  
     }
     
@@ -55,7 +45,6 @@ class DBManager: NSObject {
             database = FMDatabase(path: pathToDatabase)
             
             
-
             if database != nil {
                 if database.open(){
 

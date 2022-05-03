@@ -10,8 +10,10 @@ import SnapKit
 import Photos
 import SKPhotoBrowser
 import SDCAlertView
+import YPImagePicker
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, SKPhotoBrowserDelegate {
+
     
     let imgPicker = UIImagePickerController()
 
@@ -41,37 +43,55 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         btn.setBackgroundColor(color: .red, forState: .normal)
         return btn
     }()
-
-
     
     
+    
+
+
     @objc func addPressed(sender:UIButton){
         sender.showAnimation { [self] in
-            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
-                    imgPicker.delegate = self
-                    imgPicker.sourceType = UIImagePickerController.SourceType.photoLibrary;
-                    imgPicker.allowsEditing = false
-                self.present(imgPicker, animated: true, completion: nil)
-               }
-                Tools.Viberation.heavy.viberate()
+//            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
+//                    imgPicker.delegate = self
+//                    imgPicker.sourceType = UIImagePickerController.SourceType.photoLibrary;
+//                    imgPicker.allowsEditing = false
+//                self.present(imgPicker, animated: true, completion: nil)
+//               }
+            
+            config.library.maxNumberOfItems = 9
+            config.library.defaultMultipleSelection = true
+            config.showsPhotoFilters = false
+            config.wordings.albumsTitle = "相册"
+            config.wordings.cameraTitle = "相机"
+            config.wordings.cancel = "取消"
+            config.wordings.libraryTitle = "图库"
+            config.wordings.done = "完成"
+            config.wordings.next = "完成"
+            config.isScrollToChangeModesEnabled = false
+            config.library.mediaType = .photo
+            config.startOnScreen = .library
+            
+            let picker = YPImagePicker(configuration: config)
+      
+            picker.didFinishPicking { [unowned picker] items, cancelled in
+                for item in items {
+                    switch item {
+                    case .photo(let photo):
+                        imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: photo.image))
+                        DBManager.shared.addImage(imageToAdd: photo.image)
+                        lastImageIndex += 1
+                        
+                    case .video(let video):
+                        print(video)
+                    }
+                }
+                picker.dismiss(animated: true, completion: nil)
+            }
+            present(picker, animated: true, completion: nil)
+           
         }
     }
     
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                
-            
-            imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: image))
-            
-            DBManager.shared.addImage(imageToAdd: image)
-            
-            self.photoCollectionView.reloadData()
 
-        }
-        picker.dismiss(animated: true, completion: nil)
-    }
-    
     
 
     
@@ -82,7 +102,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         photoCollectionView.reloadData()
     }
     
-
+    var config = YPImagePickerConfiguration()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -90,12 +110,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         definesPresentationContext = true
         self.tabBarController?.tabBar.scrollEdgeAppearance = tabBarController?.tabBar.standardAppearance
         
-        SKPhotoBrowserOptions.displayAction = true
         SKPhotoBrowserOptions.displayDeleteButton = true
         SKPhotoBrowserOptions.enableSingleTapDismiss = true
         
     
-        
+    
         photoCollectionView.backgroundColor = UIColor.init(named: "backgroundColor")
         
         view.addSubview(photoCollectionView)
