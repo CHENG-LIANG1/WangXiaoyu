@@ -76,6 +76,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             config.colors.bottomMenuItemSelectedTextColor = K.appBlue
             config.colors.multipleItemsSelectedCircleColor = K.appBlue
             config.icons.multipleSelectionOnIcon = UIImage(named: "multipleOn")!
+            config.icons.multipleSelectionOffIcon = UIImage(named: "multipleOff")!
+            config.icons.cropIcon = UIImage(named: "zoom")!
 
             let picker = YPImagePicker(configuration: config)
 

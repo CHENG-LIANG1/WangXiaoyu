@@ -307,13 +307,13 @@ extension UIViewController {
                     
                 }
              })
- 
-
 
     }
 
     
-} }
+    }
+    
+}
 
 
 extension UINavigationBar {

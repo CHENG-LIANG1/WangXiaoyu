@@ -23,7 +23,7 @@ struct K {
     static let gradient2 = #colorLiteral(red: 0.1137254902, green: 0.1490196078, blue: 0.4431372549, alpha: 1)
     static let rmGreen = #colorLiteral(red: 0.5921568627, green: 0.8078431373, blue: 0.2980392157, alpha: 1)
     static let rmPurple = #colorLiteral(red: 0.9098039216, green: 0.6039215686, blue: 0.7803921569, alpha: 1)
-    static let red = #colorLiteral(red: 1, green: 0.2509803922, blue: 0, alpha: 1)
+    static let red = #colorLiteral(red: 0.9607843137, green: 0.3254901961, blue: 0.3254901961, alpha: 1)
     
     
     static let screenWidth = UIScreen.main.bounds.width
