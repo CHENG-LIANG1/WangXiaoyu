@@ -33,6 +33,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     
     var selectedImageID = 0
     
+    private let cache = NSCache<NSNumber, UIImage>()
+    
+    private let utilityQueue = DispatchQueue.global(qos: .utility)
+    
     let addButton: UIButton = {
         let btn = UIButton()
         btn.layer.cornerRadius = 22.5
@@ -40,9 +44,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 20)
         Tools.setHeight(btn, 45)
         Tools.setWidth(btn, 135)
-        btn.setBackgroundColor(color: .red, forState: .normal)
+        btn.setBackgroundColor(color: K.appBlue, forState: .normal)
         return btn
     }()
+    
+
     
     
     
@@ -50,12 +56,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
 
     @objc func addPressed(sender:UIButton){
         sender.showAnimation { [self] in
-//            if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
-//                    imgPicker.delegate = self
-//                    imgPicker.sourceType = UIImagePickerController.SourceType.photoLibrary;
-//                    imgPicker.allowsEditing = false
-//                self.present(imgPicker, animated: true, completion: nil)
-//               }
+            
             
             config.library.maxNumberOfItems = 9
             config.library.defaultMultipleSelection = true
@@ -68,10 +69,16 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             config.wordings.next = "完成"
             config.isScrollToChangeModesEnabled = false
             config.library.mediaType = .photo
+            config.library.preselectedItems = []
             config.startOnScreen = .library
-            
+            config.library.preSelectItemOnMultipleSelection = false
+            config.icons.removeImage = UIImage(named: "delete")!
+            config.colors.bottomMenuItemSelectedTextColor = K.appBlue
+            config.colors.multipleItemsSelectedCircleColor = K.appBlue
+            config.icons.multipleSelectionOnIcon = UIImage(named: "multipleOn")!
+
             let picker = YPImagePicker(configuration: config)
-      
+
             picker.didFinishPicking { [unowned picker] items, cancelled in
                 for item in items {
                     switch item {
@@ -79,12 +86,18 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
                         imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: photo.image))
                         DBManager.shared.addImage(imageToAdd: photo.image)
                         lastImageIndex += 1
-                        
                     case .video(let video):
                         print(video)
                     }
                 }
-                picker.dismiss(animated: true, completion: nil)
+                picker.dismiss(animated: true) {
+                    if items.count > 0 {
+                        self.showToast(message: "已添加 \(items.count) 张图片", fontSize: 14, bgColor: K.brandGreen, textColor: .white, width: 130, height: 30, delayTime: 0.5)
+                    }
+                   
+                }
+                
+                
             }
             present(picker, animated: true, completion: nil)
            
@@ -100,9 +113,12 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         imageArray = DBManager.shared.loadImages()
         lastImageIndex = imageArray[imageArray.count - 1].photoID!
         photoCollectionView.reloadData()
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     var config = YPImagePickerConfiguration()
+    
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -110,11 +126,15 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         definesPresentationContext = true
         self.tabBarController?.tabBar.scrollEdgeAppearance = tabBarController?.tabBar.standardAppearance
         
+//        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 100)
+        
         SKPhotoBrowserOptions.displayDeleteButton = true
         SKPhotoBrowserOptions.enableSingleTapDismiss = true
+        SKPhotoBrowserOptions.displayAction = false
+        SKPhotoBrowserOptions.displayCloseButton = false
         
-    
-    
+      
         photoCollectionView.backgroundColor = UIColor.init(named: "backgroundColor")
         
         view.addSubview(photoCollectionView)
@@ -122,7 +142,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         photoCollectionView.snp.makeConstraints { make in
             make.size.edges.equalTo(view)
         }
-        
         
         photoCollectionView.delegate = self
         photoCollectionView.dataSource = self
@@ -135,6 +154,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             make.centerX.equalTo(view)
             make.bottom.equalTo(view).offset(-30)
         }
+    
+        
         
     }
     
@@ -153,6 +174,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             self.imageArray.remove(at: self.selectedImageIndex)
 
             self.dismiss(animated: true, completion: nil)
+            self.showToast(message: "已删除", fontSize: 14, bgColor: .red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
             self.photoCollectionView.reloadData()
             
         }
@@ -200,8 +222,12 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         skImages.append(photo)
         let browser = SKPhotoBrowser(photos: skImages)
+
         browser.delegate = self
+    
         present(browser, animated: true, completion: nil)
+        browser.updateDeleteButton(UIImage(named: "delete")!, size: CGSize(width: 60, height: 60))
+        
     }
     
 

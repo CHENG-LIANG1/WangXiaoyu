@@ -15,15 +15,16 @@ class ViewController: UITabBarController {
         let settingsVC = SettingsViewController()
         
         homeVC.tabBarItem = UITabBarItem.init(title: "萝卜", image: UIImage(systemName: "heart.circle")?.withRenderingMode(.alwaysOriginal).withTintColor(UIColor.init(named: "tabItemColor")!), tag: 0)
-        homeVC.tabBarItem.selectedImage = UIImage(systemName: "heart.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(UIColor.red)
+        homeVC.tabBarItem.selectedImage = UIImage(systemName: "heart.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(K.appBlue)
+
         
         memoVC.tabBarItem = UITabBarItem.init(title: "回忆", image: UIImage(systemName: "moon.circle")?.withRenderingMode(.alwaysOriginal).withTintColor(UIColor.init(named: "tabItemColor")!), tag: 0)
-        memoVC.tabBarItem.selectedImage = UIImage(systemName: "moon.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(UIColor.red)
+        memoVC.tabBarItem.selectedImage = UIImage(systemName: "moon.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(K.appBlue)
         
         
 
         settingsVC.tabBarItem = UITabBarItem.init(title: "设置", image: UIImage(systemName: "gearshape.circle")?.withRenderingMode(.alwaysOriginal).withTintColor(UIColor.init(named: "tabItemColor")!), tag: 0)
-        settingsVC.tabBarItem.selectedImage = UIImage(systemName: "gearshape.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(UIColor.red)
+        settingsVC.tabBarItem.selectedImage = UIImage(systemName: "gearshape.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(K.appBlue)
         
         tabBar.unselectedItemTintColor =  UIColor.init(named: "tabItemColor")
         UITabBar.appearance().barTintColor = UIColor.init(named: "tabItemColor")
@@ -33,7 +34,7 @@ class ViewController: UITabBarController {
         let tabBarItemAppearance = UITabBarItemAppearance()
 
         tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.init(named: "tabItemColor")!]
-        tabBarItemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.red]
+        tabBarItemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: K.appBlue]
         
         tabBarAppearance.backgroundColor = UIColor.init(named: "backgroundColor")
         

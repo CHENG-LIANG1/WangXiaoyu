@@ -10,7 +10,11 @@ import UIKit
 class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let imageView = UIImageView()
     
-
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        
+        self.imageView.image = nil
+    }
 
     override init(frame: CGRect) {
         super.init(frame: .zero)

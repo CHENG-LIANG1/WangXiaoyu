@@ -279,3 +279,45 @@ extension UIView{
         self.layer.insertSublayer(gradientLayer, at: 0)
     }
 }
+
+
+
+extension UIViewController {
+
+    func showToast(message : String, fontSize: Int, bgColor: UIColor, textColor: UIColor, width: CGFloat, height: CGFloat, delayTime: Double) {
+
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - width/2, y: -10, width: width, height: height))
+        toastLabel.backgroundColor = bgColor
+        toastLabel.textColor = textColor
+        toastLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSize), weight: .bold)
+        toastLabel.textAlignment = .center
+        toastLabel.text = message
+        toastLabel.layer.cornerRadius = height/2
+        toastLabel.clipsToBounds  =  true
+        self.view.addSubview(toastLabel)
+        self.view.bringSubviewToFront(toastLabel)
+        
+        UIView.animate(withDuration: 0.5, delay: TimeInterval(delayTime), options: .curveLinear) {
+        toastLabel.center.y += 60
+    } completion: { (isCompleted) in
+        let timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
+                UIView.animate(withDuration: 0.5, delay: TimeInterval(delayTime), options: .curveLinear) {
+                    toastLabel.center.y -= 60
+                } completion: { (isCompleted) in
+                    
+                }
+             })
+ 
+
+
+    }
+
+    
+} }
+
+
+extension UINavigationBar {
+    open override func sizeThatFits(_ size: CGSize) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.width, height: 51)
+    }
+}
