@@ -14,7 +14,7 @@ class ViewController: UITabBarController {
         let memoVC = MemoriesViewController()
         let settingsVC = SettingsViewController()
         
-        homeVC.tabBarItem = UITabBarItem.init(title: "萝卜", image: UIImage(systemName: "heart.circle")?.withRenderingMode(.alwaysOriginal).withTintColor(UIColor.init(named: "tabItemColor")!), tag: 0)
+        homeVC.tabBarItem = UITabBarItem.init(title: "遇记", image: UIImage(systemName: "heart.circle")?.withRenderingMode(.alwaysOriginal).withTintColor(UIColor.init(named: "tabItemColor")!), tag: 0)
         homeVC.tabBarItem.selectedImage = UIImage(systemName: "heart.circle.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(K.appBlue)
 
         

@@ -43,21 +43,97 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         btn.setTitle("Add", for: .normal)
         btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 20)
         Tools.setHeight(btn, 45)
-        Tools.setWidth(btn, 135)
+        Tools.setWidth(btn, 100)
         btn.setBackgroundColor(color: K.appBlue, forState: .normal)
         return btn
     }()
     
+    
+    let screenShotCapsule: UIView = {
+        let view = UIView()
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "xiaoyu")
+        Tools.setHeight(view, 25)
+        Tools.setWidth(view, 80)
+        
+        let lbl = UILabel()
+        lbl.text = "遇记App"
+        lbl.textColor = .white
+
+        lbl.font = .systemFont(ofSize: 15, weight: .bold)
+        view.addSubview(lbl)
+        lbl.snp.makeConstraints { make in
+            make.center.equalTo(view)
+        }
+        
+        view.layer.cornerRadius = 12.5
+        view.backgroundColor = K.appBlue
+        
+        return view
+    }()
+    
 
     
+
     
+    var mode = UIView.ContentMode.scaleAspectFit
+    
+    var appBar: UIView = {
+        let view = UIView()
+        let label = UILabel()
+        label.text = "遇记"
+        view.addSubview(label)
+        label.font = .systemFont(ofSize: 30, weight: .bold)
+        label.snp.makeConstraints { make in
+            make.left.equalTo(view).offset(20)
+            make.bottom.equalTo(view).offset(-4)
+        }
+        
+        let modeButton: UIButton = {
+            let btn = UIButton()
+            btn.layer.cornerRadius = 12.5
+            btn.setTitle("Mode", for: .normal)
+            btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 14)
+            Tools.setHeight(btn, 25)
+            Tools.setWidth(btn, 60)
+            btn.setBackgroundColor(color: K.brandDark, forState: .normal)
+            return btn
+        }()
+        
+        view.addSubview(modeButton)
+        modeButton.addTarget(self, action: #selector(modePressed(sender:)), for: .touchUpInside)
+        modeButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view).offset(-8)
+            make.right.equalTo(view).offset(-16)
+        }
+        
+        Tools.setHeight(view, 80)
+        
+        return view
+    }()
+    
+    
+    
+    
+    
+    @objc func modePressed(sender: UIButton){
+        sender.showAnimation { [self] in
+            if mode == .scaleAspectFit {
+                mode = .scaleAspectFill
+                self.photoCollectionView.reloadData()
+            }else{
+                mode = .scaleAspectFit
+                self.photoCollectionView.reloadData()
+            }
+        }
+    }
     
 
 
     @objc func addPressed(sender:UIButton){
         sender.showAnimation { [self] in
             
-            
+
             config.library.maxNumberOfItems = 9
             config.library.defaultMultipleSelection = true
             config.showsPhotoFilters = false
@@ -96,12 +172,14 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
                     if items.count > 0 {
                         self.showToast(message: "已添加 \(items.count) 张图片", fontSize: 14, bgColor: K.brandGreen, textColor: .white, width: 130, height: 30, delayTime: 0.5)
                     }
-                   
+
                 }
-                
-                
+
+
             }
             present(picker, animated: true, completion: nil)
+//
+           
            
         }
     }
@@ -139,10 +217,23 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
       
         photoCollectionView.backgroundColor = UIColor.init(named: "backgroundColor")
         
-        view.addSubview(photoCollectionView)
         
+        
+        view.addSubview(appBar)
+        appBar.snp.makeConstraints { make in
+            make.top.equalTo(view)
+            make.left.equalTo(view)
+            make.right.equalTo(view)
+        }
+        
+    
+        
+        
+        
+        view.addSubview(photoCollectionView)
         photoCollectionView.snp.makeConstraints { make in
-            make.size.edges.equalTo(view)
+            make.top.equalTo(appBar.snp_bottomMargin).offset(8)
+            make.left.right.bottom.equalTo(view)
         }
         
         photoCollectionView.delegate = self
@@ -156,6 +247,18 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             make.centerX.equalTo(view)
             make.bottom.equalTo(view).offset(-30)
         }
+        
+        view.addSubview(screenShotCapsule)
+ 
+    
+        screenShotCapsule.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaInsets.top).offset(5)
+            make.centerX.equalTo(view)
+        }
+        
+
+   
+  
     
         
         
@@ -210,7 +313,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
         
         cell.imageView.image = imageArray[indexPath.item].image!
-        
+        cell.imageView.contentMode = self.mode
         
         return cell
         

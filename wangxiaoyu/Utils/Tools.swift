@@ -298,11 +298,11 @@ extension UIViewController {
         self.view.bringSubviewToFront(toastLabel)
         
         UIView.animate(withDuration: 0.5, delay: TimeInterval(delayTime), options: .curveLinear) {
-        toastLabel.center.y += 60
+        toastLabel.center.y += 51
     } completion: { (isCompleted) in
         let timer = Timer.scheduledTimer(withTimeInterval: 2.0, repeats: false, block: { _ in
                 UIView.animate(withDuration: 0.5, delay: TimeInterval(delayTime), options: .curveLinear) {
-                    toastLabel.center.y -= 60
+                    toastLabel.center.y -= 51
                 } completion: { (isCompleted) in
                     
                 }
@@ -320,4 +320,36 @@ extension UINavigationBar {
     open override func sizeThatFits(_ size: CGSize) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.width, height: 51)
     }
+}
+
+
+extension UIView {
+
+  var safeTopAnchor: NSLayoutYAxisAnchor {
+    if #available(iOS 11.0, *) {
+      return safeAreaLayoutGuide.topAnchor
+    }
+    return topAnchor
+  }
+
+  var safeLeftAnchor: NSLayoutXAxisAnchor {
+    if #available(iOS 11.0, *){
+      return safeAreaLayoutGuide.leftAnchor
+    }
+    return leftAnchor
+  }
+
+  var safeRightAnchor: NSLayoutXAxisAnchor {
+    if #available(iOS 11.0, *){
+      return safeAreaLayoutGuide.rightAnchor
+    }
+    return rightAnchor
+  }
+
+  var safeBottomAnchor: NSLayoutYAxisAnchor {
+    if #available(iOS 11.0, *) {
+      return safeAreaLayoutGuide.bottomAnchor
+    }
+    return bottomAnchor
+  }
 }

@@ -18,7 +18,7 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        imageView.contentMode = .scaleAspectFit
+//        imageView.contentMode = .scaleAspectFit
         imageView.clipsToBounds = true
 
         
