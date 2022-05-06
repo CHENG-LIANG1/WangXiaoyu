@@ -53,20 +53,20 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         let view = UIView()
         let imageView = UIImageView()
         imageView.image = UIImage(named: "xiaoyu")
-        Tools.setHeight(view, 25)
+        Tools.setHeight(view, 20)
         Tools.setWidth(view, 80)
         
         let lbl = UILabel()
         lbl.text = "遇记App"
         lbl.textColor = .white
 
-        lbl.font = .systemFont(ofSize: 15, weight: .bold)
+        lbl.font = .systemFont(ofSize: 13, weight: .bold)
         view.addSubview(lbl)
         lbl.snp.makeConstraints { make in
             make.center.equalTo(view)
         }
         
-        view.layer.cornerRadius = 12.5
+        view.layer.cornerRadius = 10
         view.backgroundColor = K.appBlue
         
         return view
