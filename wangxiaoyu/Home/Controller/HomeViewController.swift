@@ -23,7 +23,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     
     var imageToAdd: UIImage?
     
-    let photoCollectionView = Tools.setUpCollectionView(0, 0, Int(K.screenWidth) / 4, Int(K.screenWidth) / 4)
+    let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4)
     
     var imageArray:[PhotoModel] = []
     
@@ -39,11 +39,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     
     let addButton: UIButton = {
         let btn = UIButton()
-        btn.layer.cornerRadius = 22.5
+        btn.layer.cornerRadius = 30
         btn.setTitle("Add", for: .normal)
         btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 20)
-        Tools.setHeight(btn, 45)
-        Tools.setWidth(btn, 100)
+        Tools.setHeight(btn, 60)
+        Tools.setWidth(btn, 60)
         btn.setBackgroundColor(color: K.appBlue, forState: .normal)
         return btn
     }()
@@ -77,16 +77,19 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
 
     
     var mode = UIView.ContentMode.scaleAspectFit
+    var modeRadius = 0
     
     var appBar: UIView = {
         let view = UIView()
         let label = UILabel()
         label.text = "遇记"
+        label.textColor = UIColor.init(named: "textColor")
+        view.backgroundColor = UIColor.init(named: "backgroundColor")
         view.addSubview(label)
         label.font = .systemFont(ofSize: 30, weight: .bold)
         label.snp.makeConstraints { make in
             make.left.equalTo(view).offset(20)
-            make.bottom.equalTo(view).offset(-4)
+            make.bottom.equalTo(view).offset(0)
         }
         
         let modeButton: UIButton = {
@@ -103,7 +106,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         view.addSubview(modeButton)
         modeButton.addTarget(self, action: #selector(modePressed(sender:)), for: .touchUpInside)
         modeButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view).offset(-8)
+            make.bottom.equalTo(view).offset(-4)
             make.right.equalTo(view).offset(-16)
         }
         
@@ -120,9 +123,13 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         sender.showAnimation { [self] in
             if mode == .scaleAspectFit {
                 mode = .scaleAspectFill
+                modeRadius = 10
+                UserDefaults.standard.set(false, forKey: "mode")
                 self.photoCollectionView.reloadData()
             }else{
                 mode = .scaleAspectFit
+                modeRadius = 0
+                UserDefaults.standard.set(true, forKey: "mode")
                 self.photoCollectionView.reloadData()
             }
         }
@@ -186,23 +193,22 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     
 
     
-
+    var shouldFit = false
     
     
     override func viewWillAppear(_ animated: Bool) {
         imageArray = DBManager.shared.loadImages()
         lastImageIndex = imageArray[imageArray.count - 1].photoID!
-        photoCollectionView.reloadData()
+
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
     var config = YPImagePickerConfiguration()
     
 
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.title = "萝卜"
+        self.view.backgroundColor = UIColor.init(named: "backgroundColor")
         definesPresentationContext = true
         self.tabBarController?.tabBar.scrollEdgeAppearance = tabBarController?.tabBar.standardAppearance
         
@@ -214,8 +220,21 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         SKPhotoBrowserOptions.displayAction = false
         SKPhotoBrowserOptions.displayCloseButton = false
         
-      
-        photoCollectionView.backgroundColor = UIColor.init(named: "backgroundColor")
+        self.shouldFit = UserDefaults.standard.bool(forKey: "mode")
+        
+        if shouldFit {
+            mode = .scaleAspectFit
+            modeRadius = 0
+        }else {
+            mode = .scaleAspectFill
+            modeRadius = 10
+        }
+        
+        self.photoCollectionView.reloadData()
+        
+        
+        
+        self.photoCollectionView.backgroundColor = UIColor(named: "backgroundColor")
         
         
         
@@ -230,8 +249,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         
         view.addSubview(photoCollectionView)
         photoCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(appBar.snp_bottomMargin).offset(8)
-            make.left.right.bottom.equalTo(view)
+            make.top.equalTo(appBar.snp_bottomMargin).offset(16)
+            make.left.equalTo(view).offset(8)
+            make.right.equalTo(view).offset(-8)
+            make.bottom.equalTo(view).offset(-18)
         }
         
         photoCollectionView.delegate = self
@@ -242,8 +263,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         view.addSubview(addButton)
         addButton.addTarget(self, action: #selector(addPressed(sender:)), for: .touchUpInside)
         addButton.snp.makeConstraints { make in
-            make.centerX.equalTo(view)
-            make.bottom.equalTo(view).offset(-30)
+            make.right.equalTo(view).offset(-25)
+            make.bottom.equalTo(view).offset(-45)
         }
         
         view.addSubview(screenShotCapsule)
@@ -261,8 +282,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         
         
     }
-    
-    
     
     
     func removePhoto(_ browser: SKPhotoBrowser, index: Int, reload: @escaping (() -> Void)) {
@@ -287,20 +306,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         alert.present()
     }
     
-
     
     
 }
 
-extension UIView {
-    func traverseRadius(_ radius: Float) {
-        layer.cornerRadius = CGFloat(radius)
-
-        for subview: UIView in subviews {
-            subview.traverseRadius(radius)
-        }
-    }
-}
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -312,6 +321,8 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         
         cell.imageView.image = imageArray[indexPath.item].image!
         cell.imageView.contentMode = self.mode
+        cell.imageView.clipsToBounds = true
+        cell.imageView.layer.cornerRadius = CGFloat(modeRadius)
         
         return cell
         

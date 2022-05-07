@@ -13,5 +13,6 @@ target 'wangxiaoyu' do
   pod 'FMDB'
   pod 'SDCAlertView'
   pod 'YPImagePicker'
+  pod 'CardTabBar'
 
 end
