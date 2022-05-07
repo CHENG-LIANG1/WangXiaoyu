@@ -302,7 +302,7 @@ extension UIViewController {
     } completion: { (isCompleted) in
         let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
                 UIView.animate(withDuration: 0.5, delay: TimeInterval(delayTime), options: .curveLinear) {
-                    toastLabel.center.y -= 51
+                    toastLabel.center.y -= 100
                 } completion: { (isCompleted) in
                     
                 }

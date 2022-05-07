@@ -170,7 +170,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
                 }
                 picker.dismiss(animated: true) {
                     if items.count > 0 {
-                        self.showToast(message: "已添加 \(items.count) 张图片", fontSize: 14, bgColor: K.brandGreen, textColor: .white, width: 130, height: 30, delayTime: 0.5)
+                        self.showToast(message: "已添加 \(items.count) 张图片", fontSize: 14, bgColor: K.brandGreen, textColor: .white, width: 130, height: 30, delayTime: 0.3)
                     }
 
                 }
@@ -228,8 +228,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         
     
         
-        
-        
         view.addSubview(photoCollectionView)
         photoCollectionView.snp.makeConstraints { make in
             make.top.equalTo(appBar.snp_bottomMargin).offset(8)
@@ -279,7 +277,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             self.imageArray.remove(at: self.selectedImageIndex)
 
             self.dismiss(animated: true, completion: nil)
-            self.showToast(message: "已删除", fontSize: 14, bgColor: .red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
+            self.showToast(message: "已删除", fontSize: 14, bgColor: K.red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
             self.photoCollectionView.reloadData()
             
         }
