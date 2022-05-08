@@ -8,12 +8,7 @@
 import UIKit
 import CardTabBar
 class ViewController: CardTabBarController {
-    override func viewWillLayoutSubviews() {
-        super.viewWillLayoutSubviews()
 
-        tabBar.frame.size.height = 800
-        tabBar.frame.origin.y = view.frame.height - 800
-    }
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.init(named: "backgroundColor")
@@ -52,33 +47,36 @@ class ViewController: CardTabBarController {
 //          items.forEach { item in item.imageInsets = UIEdgeInsets(top: 10, left: 0, bottom: 0, right: 0) }
 //        }
 //
-        self.tabBar.itemWidth = 90
-        
 
+//        
+//
+//        
+//        tabBar.unselectedItemTintColor =  UIColor.init(named: "tabItemColor")
+//        UITabBar.appearance().barTintColor = UIColor.init(named: "tabItemColor")
+//        
+//        
+//        let tabBarAppearance = UITabBarAppearance()
+//        let tabBarItemAppearance = UITabBarItemAppearance()
+//
+//        tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+//        tabBarItemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
+//        
+//        tabBarAppearance.backgroundColor = UIColor.init(named: "backgroundColor")
+//        tabBarAppearance.shadowImage = nil
+//        tabBarAppearance.shadowColor = nil
+//        
+//        tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance
+//        self.tabBarController?.tabBar.standardAppearance = tabBarAppearance
+//        
+//
+//        tabBar.standardAppearance = tabBarAppearance
+//        tabBar.scrollEdgeAppearance = tabBarAppearance
+//        
+//        tabBar.clipsToBounds = true
+//        tabBar.isTranslucent = false
         
-        tabBar.unselectedItemTintColor =  UIColor.init(named: "tabItemColor")
-        UITabBar.appearance().barTintColor = UIColor.init(named: "tabItemColor")
-        
-        
-        let tabBarAppearance = UITabBarAppearance()
-        let tabBarItemAppearance = UITabBarItemAppearance()
-
-        tabBarItemAppearance.normal.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        tabBarItemAppearance.selected.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.black]
-        
-        tabBarAppearance.backgroundColor = UIColor.init(named: "backgroundColor")
-        tabBarAppearance.shadowImage = nil
-        tabBarAppearance.shadowColor = nil
-        
-        tabBarAppearance.stackedLayoutAppearance = tabBarItemAppearance
-        self.tabBarController?.tabBar.standardAppearance = tabBarAppearance
-        
-
-        tabBar.standardAppearance = tabBarAppearance
-        tabBar.scrollEdgeAppearance = tabBarAppearance
-        
-        tabBar.clipsToBounds = true
-        tabBar.isTranslucent = false
+        tabBar.scrollEdgeAppearance = nil
+ 
 
         
         let controllerArray = [homeVC, memoVC, settingsVC]
@@ -86,10 +84,3 @@ class ViewController: CardTabBarController {
     }
 }
 
-extension UITabBar {
-    override open func sizeThatFits(_ size: CGSize) -> CGSize {
-        var sizeThatFits = super.sizeThatFits(size)
-        sizeThatFits.height = 60 // adjust your size here
-        return sizeThatFits
-    }
-}

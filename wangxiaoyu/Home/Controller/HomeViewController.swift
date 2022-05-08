@@ -14,15 +14,6 @@ import YPImagePicker
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, SKPhotoBrowserDelegate {
 
-    
-    let imgPicker = UIImagePickerController()
-
-    func didSelect(image: UIImage?) {
-        imageToAdd = image
-    }
-    
-    var imageToAdd: UIImage?
-    
     let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4)
     
     var imageArray:[PhotoModel] = []
@@ -33,9 +24,51 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     
     var selectedImageID = 0
     
-    private let cache = NSCache<NSNumber, UIImage>()
     
-    private let utilityQueue = DispatchQueue.global(qos: .utility)
+    var mode = UIView.ContentMode.scaleAspectFit
+    var modeRadius = 0
+
+    var blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+
+    var appBar: UIView = {
+        let view = UIView()
+        let label = UILabel()
+        label.text = "相册"
+        label.textColor = UIColor.init(named: "textColor")
+        view.backgroundColor = UIColor.white.withAlphaComponent(0)
+        view.addSubview(label)
+        label.font = .systemFont(ofSize: 30, weight: .bold)
+        label.snp.makeConstraints { make in
+            make.left.equalTo(view).offset(20)
+            make.bottom.equalTo(view).offset(0)
+        }
+        
+        let modeButton: UIButton = {
+            let btn = UIButton()
+            btn.layer.cornerRadius = 12.5
+            btn.setTitle("Mode", for: .normal)
+            btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 14)
+            Tools.setHeight(btn, 25)
+            Tools.setWidth(btn, 60)
+            btn.setBackgroundColor(color: K.brandDark, forState: .normal)
+            return btn
+        }()
+        
+        view.addSubview(modeButton)
+        modeButton.addTarget(self, action: #selector(modePressed(sender:)), for: .touchUpInside)
+        modeButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view).offset(-4)
+            make.right.equalTo(view).offset(-16)
+        }
+        
+        Tools.setHeight(view, 80)
+        
+        return view
+    }()
+    
+    var config = YPImagePickerConfiguration()
+    
+
     
     let addButton: UIButton = {
         let btn = UIButton()
@@ -72,52 +105,126 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         return view
     }()
     
-
+    var shouldFit = false
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        imageArray = DBManager.shared.loadImages()
+        lastImageIndex = imageArray[imageArray.count - 1].photoID!
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+    }
     
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        configureViews()
+        layoutViews()
+    }
     
-    var mode = UIView.ContentMode.scaleAspectFit
-    var modeRadius = 0
+    func configureViews(){
+        
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+
+
+
+
+        self.shouldFit = UserDefaults.standard.bool(forKey: "mode")
+
+        if shouldFit {
+            mode = .scaleAspectFit
+            modeRadius = 0
+        }else {
+            mode = .scaleAspectFill
+            modeRadius = 10
+        }
+
+
+        SKPhotoBrowserOptions.displayDeleteButton = true
+        SKPhotoBrowserOptions.enableSingleTapDismiss = true
+        SKPhotoBrowserOptions.displayAction = false
+        SKPhotoBrowserOptions.displayCloseButton = false
+
+
+        self.view.backgroundColor = UIColor.init(named: "backgroundColor")
+        definesPresentationContext = true
+
+        self.photoCollectionView.backgroundColor = UIColor(named: "backgroundColor")
+        photoCollectionView.delegate = self
+        photoCollectionView.dataSource = self
+        photoCollectionView.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
+
+        addButton.addTarget(self, action: #selector(addPressed(sender:)), for: .touchUpInside)
+
+
+
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+
+        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+    }
     
-    var appBar: UIView = {
-        let view = UIView()
-        let label = UILabel()
-        label.text = "遇记"
-        label.textColor = UIColor.init(named: "textColor")
-        view.backgroundColor = UIColor.init(named: "backgroundColor")
-        view.addSubview(label)
-        label.font = .systemFont(ofSize: 30, weight: .bold)
-        label.snp.makeConstraints { make in
-            make.left.equalTo(view).offset(20)
+    func layoutViews(){
+        
+        view.addSubview(appBar)
+        appBar.snp.makeConstraints { make in
+            make.top.equalTo(view)
+            make.left.equalTo(view)
+            make.right.equalTo(view)
+        }
+        
+        
+        view.addSubview(photoCollectionView)
+        photoCollectionView.snp.makeConstraints { make in
+            make.top.equalTo(appBar.snp_bottomMargin).offset(16)
+            make.left.equalTo(view).offset(8)
+            make.right.equalTo(view).offset(-8)
             make.bottom.equalTo(view).offset(0)
         }
         
-        let modeButton: UIButton = {
-            let btn = UIButton()
-            btn.layer.cornerRadius = 12.5
-            btn.setTitle("Mode", for: .normal)
-            btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 14)
-            Tools.setHeight(btn, 25)
-            Tools.setWidth(btn, 60)
-            btn.setBackgroundColor(color: K.brandDark, forState: .normal)
-            return btn
-        }()
-        
-        view.addSubview(modeButton)
-        modeButton.addTarget(self, action: #selector(modePressed(sender:)), for: .touchUpInside)
-        modeButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view).offset(-4)
-            make.right.equalTo(view).offset(-16)
+        view.addSubview(addButton)
+        addButton.snp.makeConstraints { make in
+            make.right.equalTo(view).offset(-25)
+            make.bottom.equalTo(view).offset(-100)
         }
         
-        Tools.setHeight(view, 80)
+        view.addSubview(screenShotCapsule)
+        screenShotCapsule.snp.makeConstraints { make in
+            make.top.equalTo(view.safeAreaInsets.top).offset(5)
+            make.centerX.equalTo(view)
+        }
         
-        return view
-    }()
+    }
     
+    func removePhoto(_ browser: SKPhotoBrowser, index: Int, reload: @escaping (() -> Void)) {
+        
+        let alert = AlertController(title: "是否删除这张照片？", message: "", preferredStyle: .alert)
+        let cancelAction = AlertAction(title: "取消", style: .normal) { AlertAction in
+       
+        }
+        
+        let deleteAction = AlertAction(title: "删除", style: .destructive) { AlertAction  in
+            DBManager.shared.deleteImage(id: self.selectedImageID)
+            self.imageArray.remove(at: self.selectedImageIndex)
+
+            self.dismiss(animated: true, completion: nil)
+            self.showToast(message: "已删除", fontSize: 14, bgColor: K.red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
+            self.photoCollectionView.reloadData()
+            
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        alert.present()
+    }
     
+    @objc func appResignActive() {
+        view.addSubview(blurEffectView)
+    }
     
-    
+    @objc func appBecameActive() {
+        blurEffectView.removeFromSuperview()
+    }
     
     @objc func modePressed(sender: UIButton){
         sender.showAnimation { [self] in
@@ -135,8 +242,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         }
     }
     
-
-
     @objc func addPressed(sender:UIButton){
         sender.showAnimation { [self] in
             
@@ -190,122 +295,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
            
         }
     }
-    
-
-    
-    var shouldFit = false
-    
-    
-    override func viewWillAppear(_ animated: Bool) {
-        imageArray = DBManager.shared.loadImages()
-        lastImageIndex = imageArray[imageArray.count - 1].photoID!
-
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-    }
-    
-    var config = YPImagePickerConfiguration()
-    
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = UIColor.init(named: "backgroundColor")
-        definesPresentationContext = true
-        self.tabBarController?.tabBar.scrollEdgeAppearance = tabBarController?.tabBar.standardAppearance
-        
-//        navigationController?.navigationBar.prefersLargeTitles = true
-        navigationController?.navigationBar.frame = CGRect(x: 0, y: 0, width: self.view.bounds.width, height: 100)
-        
-        SKPhotoBrowserOptions.displayDeleteButton = true
-        SKPhotoBrowserOptions.enableSingleTapDismiss = true
-        SKPhotoBrowserOptions.displayAction = false
-        SKPhotoBrowserOptions.displayCloseButton = false
-        
-        self.shouldFit = UserDefaults.standard.bool(forKey: "mode")
-        
-        if shouldFit {
-            mode = .scaleAspectFit
-            modeRadius = 0
-        }else {
-            mode = .scaleAspectFill
-            modeRadius = 10
-        }
-        
-        self.photoCollectionView.reloadData()
-        
-        
-        
-        self.photoCollectionView.backgroundColor = UIColor(named: "backgroundColor")
-        
-        
-        
-        view.addSubview(appBar)
-        appBar.snp.makeConstraints { make in
-            make.top.equalTo(view)
-            make.left.equalTo(view)
-            make.right.equalTo(view)
-        }
-        
-    
-        
-        view.addSubview(photoCollectionView)
-        photoCollectionView.snp.makeConstraints { make in
-            make.top.equalTo(appBar.snp_bottomMargin).offset(16)
-            make.left.equalTo(view).offset(8)
-            make.right.equalTo(view).offset(-8)
-            make.bottom.equalTo(view).offset(-18)
-        }
-        
-        photoCollectionView.delegate = self
-        photoCollectionView.dataSource = self
-        photoCollectionView.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
-        
-    
-        view.addSubview(addButton)
-        addButton.addTarget(self, action: #selector(addPressed(sender:)), for: .touchUpInside)
-        addButton.snp.makeConstraints { make in
-            make.right.equalTo(view).offset(-25)
-            make.bottom.equalTo(view).offset(-45)
-        }
-        
-        view.addSubview(screenShotCapsule)
- 
-    
-        screenShotCapsule.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaInsets.top).offset(5)
-            make.centerX.equalTo(view)
-        }
-        
-
-   
-  
-    
-        
-        
-    }
-    
-    
-    func removePhoto(_ browser: SKPhotoBrowser, index: Int, reload: @escaping (() -> Void)) {
-        
-        let alert = AlertController(title: "是否删除这张照片？", message: "", preferredStyle: .alert)
-        let cancelAction = AlertAction(title: "取消", style: .normal) { AlertAction in
-       
-        }
-        
-        let deleteAction = AlertAction(title: "删除", style: .destructive) { AlertAction  in
-            DBManager.shared.deleteImage(id: self.selectedImageID)
-            self.imageArray.remove(at: self.selectedImageIndex)
-
-            self.dismiss(animated: true, completion: nil)
-            self.showToast(message: "已删除", fontSize: 14, bgColor: K.red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
-            self.photoCollectionView.reloadData()
-            
-        }
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-
-        alert.present()
-    }
-    
     
     
 }
