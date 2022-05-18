@@ -16,7 +16,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
 
     let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4)
     
-    var imageArray:[PhotoModel] = []
+    
+    lazy var imageArray:[PhotoModel] = []
     
     var selectedImageIndex = 0
     
@@ -126,9 +127,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         blurEffectView.frame = view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 
-
-
-
         self.shouldFit = UserDefaults.standard.bool(forKey: "mode")
 
         if shouldFit {
@@ -162,6 +160,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         notificationCenter.addObserver(self, selector: #selector(appResignActive), name: UIApplication.willResignActiveNotification, object: nil)
 
         notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        
+        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     func layoutViews(){
@@ -318,18 +318,24 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        var skImages = [SKPhoto]()
-        let photo = SKPhoto.photoWithImage(imageArray[indexPath.item].image!)
+//        var skImages = [SKPhoto]()
+//        let photo = SKPhoto.photoWithImage(imageArray[indexPath.item].image!)
         selectedImageIndex = indexPath.item
         selectedImageID = imageArray[indexPath.item].photoID!
-        
-        skImages.append(photo)
-        let browser = SKPhotoBrowser(photos: skImages)
-
-        browser.delegate = self
-    
-        present(browser, animated: true, completion: nil)
-        browser.updateDeleteButton(UIImage(named: "delete")!, size: CGSize(width: 60, height: 60))
+//
+//        skImages.append(photo)
+//        let browser = SKPhotoBrowser(photos: skImages)
+//
+//        browser.delegate = self
+//
+//        present(browser, animated: true, completion: nil)
+//        browser.updateDeleteButton(UIImage(named: "delete")!, size: CGSize(width: 60, height: 60))
+//
+        let image = imageArray[indexPath.item].image
+        let vc = PhotoViewController()
+        vc.currenttPage = indexPath.item
+        vc.imageArray = imageArray
+        present(vc, animated: true, completion: nil)
         
     }
     
