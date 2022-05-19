@@ -10,9 +10,10 @@ import SnapKit
 import Photos
 import SKPhotoBrowser
 import SDCAlertView
-import YPImagePicker
+import HXPHPicker
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, SKPhotoBrowserDelegate {
+
 
     let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4, vertical: true)
     
@@ -67,9 +68,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         return view
     }()
     
-    var config = YPImagePickerConfiguration()
-    
-
     
     let addButton: UIButton = {
         let btn = UIButton()
@@ -112,6 +110,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     override func viewWillAppear(_ animated: Bool) {
         imageArray = DBManager.shared.loadImages()
         lastImageIndex = imageArray[imageArray.count - 1].photoID!
+        self.photoCollectionView.reloadData()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
@@ -196,27 +195,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         
     }
     
-    func removePhoto(_ browser: SKPhotoBrowser, index: Int, reload: @escaping (() -> Void)) {
-        
-        let alert = AlertController(title: "是否删除这张照片？", message: "", preferredStyle: .alert)
-        let cancelAction = AlertAction(title: "取消", style: .normal) { AlertAction in
-       
-        }
-        
-        let deleteAction = AlertAction(title: "删除", style: .destructive) { AlertAction  in
-            DBManager.shared.deleteImage(id: self.selectedImageID)
-            self.imageArray.remove(at: self.selectedImageIndex)
 
-            self.dismiss(animated: true, completion: nil)
-            self.showToast(message: "已删除", fontSize: 14, bgColor: K.red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
-            self.photoCollectionView.reloadData()
-            
-        }
-        alert.addAction(cancelAction)
-        alert.addAction(deleteAction)
-
-        alert.present()
-    }
     
     @objc func appResignActive() {
         view.addSubview(blurEffectView)
@@ -242,56 +221,19 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         }
     }
     
+    func presentPickerController() {
+        // Set the configuration consistent with the WeChat theme
+        let config = PhotoTools.getWXPickerConfig()
+
+        let pickerController = PhotoPickerController(picker: config)
+        pickerController.pickerDelegate = self
+
+        present(pickerController, animated: true, completion: nil)
+    }
+    
     @objc func addPressed(sender:UIButton){
         sender.showAnimation { [self] in
-            
-
-            config.library.maxNumberOfItems = 9
-            config.library.defaultMultipleSelection = true
-            config.showsPhotoFilters = false
-            config.wordings.albumsTitle = "相册"
-            config.wordings.cameraTitle = "相机"
-            config.wordings.cancel = "取消"
-            config.wordings.libraryTitle = "图库"
-            config.wordings.done = "完成"
-            config.wordings.next = "完成"
-            config.isScrollToChangeModesEnabled = false
-            config.library.mediaType = .photo
-            config.library.preselectedItems = []
-            config.startOnScreen = .library
-            config.library.preSelectItemOnMultipleSelection = false
-            config.icons.removeImage = UIImage(named: "delete")!
-            config.colors.bottomMenuItemSelectedTextColor = K.appBlue
-            config.colors.multipleItemsSelectedCircleColor = K.appBlue
-            config.icons.multipleSelectionOnIcon = UIImage(named: "multipleOn")!
-            config.icons.multipleSelectionOffIcon = UIImage(named: "multipleOff")!
-            config.icons.cropIcon = UIImage(named: "zoom")!
-
-            let picker = YPImagePicker(configuration: config)
-
-            picker.didFinishPicking { [unowned picker] items, cancelled in
-                for item in items {
-                    switch item {
-                    case .photo(let photo):
-                        imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: photo.image))
-                        DBManager.shared.addImage(imageToAdd: photo.image)
-                        lastImageIndex += 1
-                        self.photoCollectionView.reloadData()
-                    case .video(let video):
-                        print(video)
-                    }
-                }
-                picker.dismiss(animated: true) {
-                    if items.count > 0 {
-                        self.showToast(message: "已添加 \(items.count) 张图片", fontSize: 14, bgColor: K.brandGreen, textColor: .white, width: 130, height: 30, delayTime: 0.3)
-                    }
-
-                }
-
-
-            }
-            present(picker, animated: true, completion: nil)
-//
+            presentPickerController()
            
            
         }
@@ -338,7 +280,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         vc.modalTransitionStyle = .crossDissolve
         vc.currenttPage = indexPath.item
         vc.imageArray = imageArray
-        
+        vc.selectedImageIndex = self.selectedImageIndex
 //        let vc = PhotoCollectionViewController()
 //        vc.modalPresentationStyle = .fullScreen
 //        vc.modalTransitionStyle = .crossDissolve
@@ -352,3 +294,39 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     
 }
 
+
+extension HomeViewController: PhotoPickerControllerDelegate {
+    
+    /// 选择完成之后调用
+    /// - Parameters:
+    ///   - pickerController: 对应的 PhotoPickerController
+    ///   - result: 选择的结果
+    ///     result.photoAssets  选择的资源数组
+    ///     result.isOriginal   是否选中原图
+    func pickerController(_ pickerController: PhotoPickerController,
+                            didFinishSelection result: PickerResult) {
+        result.getImage { (image, photoAsset, index) in
+            if let image = image {
+                print("success", image)
+            }else {
+                print("failed")
+            }
+        } completionHandler: { [self] (images) in
+            
+            for image in images{
+                imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: image))
+                DBManager.shared.addImage(imageToAdd: image)
+                lastImageIndex += 1
+            }
+
+            self.photoCollectionView.reloadData()
+            print(images)
+        }
+    }
+    
+    /// 点击取消时调用
+    /// - Parameter pickerController: 对应的 PhotoPickerController
+    func pickerController(didCancel pickerController: PhotoPickerController) {
+        
+    }
+}

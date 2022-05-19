@@ -104,6 +104,17 @@ struct Tools {
         return button
     }
     
+    public static func setUpButtonWithSystemImage(systemName: String, width: Float, height: Float, color: UIColor) -> UIButton{
+        let btn = UIButton()
+        btn.contentVerticalAlignment = .fill
+        btn.contentHorizontalAlignment = .fill
+        btn.setImage(UIImage(systemName: systemName)?.withConfiguration(UIImage.SymbolConfiguration(weight: UIImage.SymbolWeight.semibold)).withRenderingMode(.alwaysOriginal).withTintColor(color), for: .normal)
+        Tools.setHeight(btn, height)
+        Tools.setWidth(btn, Int(width))
+        return btn
+    }
+    
+    
     public static func textToIamge(_ text: String) -> UIImage? {
         let label = UILabel()
         label.text = text

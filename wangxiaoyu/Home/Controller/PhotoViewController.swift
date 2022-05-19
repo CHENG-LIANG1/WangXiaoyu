@@ -13,6 +13,10 @@ class PhotoViewController: UIViewController {
     var currenttPage = 0
     var imageArray = [PhotoModel]()
     var offset = 8
+    var selectedImageIndex = 0
+
+    let moreButton = Tools.setUpButtonWithSystemImage(systemName: "ellipsis.circle.fill", width: 37, height: 35, color: .gray)
+    
     
     func createImagePageView(image: UIImage) -> UIView{
         let view = UIView()
@@ -30,6 +34,8 @@ class PhotoViewController: UIViewController {
             make.right.equalTo(-offset)
             make.left.equalTo(offset)
         }
+        
+
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissView))
         tap.cancelsTouchesInView = false
@@ -91,24 +97,42 @@ class PhotoViewController: UIViewController {
     
     @objc
     func dismissView(){
-        print("dismissed")
         self.dismiss(animated: true, completion: nil)
     }
     
+    @objc
+    func morePressed(sender: UIButton){
+        sender.showAnimation { [self] in
+            let bottomSheet = ImageBottomSheet()
+            bottomSheet.tartgetImage = imageArray[pageControl.currentPage].image!
+            bottomSheet.selectedImageID = imageArray[pageControl.currentPage].photoID!
+            self.present(bottomSheet, animated: true, completion: nil)
+        }
+        
+    }
     
-
-
+    
+    @objc func photoDeleted(){
+//        self.showToast(message: "已删除", fontSize: 14, bgColor: K.red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
+        NotificationCenter.default.addObserver(self, selector: #selector(photoDeleted), name: NSNotification.Name.init(rawValue: "deletePhoto"), object: nil)
         self.view.backgroundColor = .black
         view.addSubview(photoScrollView)
         photoScrollView.snp.makeConstraints { make in
             make.top.left.right.bottom.equalTo(view)
         }
-        view.addSubview(pageControl)
-        pageControl.pinTo(view)
+        
+        view.addSubview(moreButton)
+        moreButton.addTarget(self, action: #selector(morePressed(sender:)), for: .touchUpInside)
+        moreButton.snp.makeConstraints { make in
+            make.bottom.equalTo(view).offset(-40)
+            make.right.equalTo(view).offset(-15)
+        }
         
         photoScrollView.contentOffset.x = CGFloat(currenttPage) * K.screenWidth
     }
@@ -119,16 +143,10 @@ extension PhotoViewController: UIScrollViewDelegate {
         if scrollView == photoScrollView {
             let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
             pageControl.currentPage = Int(pageIndex)
+            
         }
 
     }
-    
-    func viewForZooming(in scrollView: UIScrollView) -> UIImageView? {
-        let imgView = UIImageView()
-        imgView.image = imageArray[pageControl.currentPage].image
-        return imgView
-    }
-       
-    
+
     
 }

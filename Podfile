@@ -14,7 +14,7 @@ target 'wangxiaoyu' do
   pod 'DynamicBottomSheet'
   pod 'FMDB'
   pod 'SDCAlertView'
-  pod 'YPImagePicker'
   pod 'CardTabBar'
   pod 'ZoomImageView'
+  pod 'HXPHPicker'
 end
