@@ -6,22 +6,35 @@
 //
 
 import UIKit
+import ZoomImageView
 
 class PhotoViewController: UIViewController {
     
     var currenttPage = 0
     var imageArray = [PhotoModel]()
+    var offset = 8
     
     func createImagePageView(image: UIImage) -> UIView{
         let view = UIView()
-        let imgV = UIImageView()
+        let imgV = ZoomImageView()
+        
+        
         imgV.image = image
+        imgV.isUserInteractionEnabled = true
         imgV.contentMode = .scaleAspectFit
-        view.addSubview(imgV)
-        imgV.snp.makeConstraints { make in
-            make.left.top.right.bottom.equalTo(view)
-        }
 
+        view.addSubview(imgV)
+
+        imgV.snp.makeConstraints { make in
+            make.top.bottom.equalTo(view)
+            make.right.equalTo(-offset)
+            make.left.equalTo(offset)
+        }
+        
+        let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissView))
+        tap.cancelsTouchesInView = false
+        imgV.addGestureRecognizer(tap)
+        
         return view
     }
     
@@ -38,19 +51,27 @@ class PhotoViewController: UIViewController {
     lazy var pages = createPages()
     
     
-    lazy var scrollView: UIScrollView = {
+    lazy var photoScrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.isPagingEnabled = true
-        scrollView.contentSize = CGSize(width: view.frame.width * CGFloat(pages.count), height: 1.0)
-        
+        scrollView.contentSize = CGSize(width: (view.frame.width + CGFloat(offset)) * CGFloat(pages.count), height: view.frame.height * 1.0)
+        scrollView.maximumZoomScale = 4.0
         for i in 0..<pages.count {
             scrollView.addSubview(pages[i])
+            
             pages[i].frame = CGRect(x: view.frame.width * CGFloat(i), y: 0, width: view.frame.width, height: view.frame.height)
+
+            
         }
         
         scrollView.delegate = self
+//
+//        let recognizer = UITapGestureRecognizer(target: self,
+//                                                action: #selector(onDoubleTap(_:)))
+//        recognizer.numberOfTapsRequired = 2
+//        scrollView.addGestureRecognizer(recognizer)
         
         return scrollView
     }()
@@ -58,7 +79,6 @@ class PhotoViewController: UIViewController {
     lazy var pageControl: UIPageControl = {
         let pc = UIPageControl()
         pc.numberOfPages = pages.count
-        print(currenttPage)
         pc.currentPage = currenttPage
         pc.addTarget(self, action: #selector(pageControlHandler(sender:)), for: .touchUpInside)
         return pc
@@ -66,7 +86,13 @@ class PhotoViewController: UIViewController {
     
     @objc
     func pageControlHandler(sender: UIPageControl){
-        scrollView.scrollTo(horizontalPage: sender.currentPage, animated: true)
+        photoScrollView.scrollTo(horizontalPage: sender.currentPage, animated: true)
+    }
+    
+    @objc
+    func dismissView(){
+        print("dismissed")
+        self.dismiss(animated: true, completion: nil)
     }
     
     
@@ -74,24 +100,35 @@ class PhotoViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+
         self.view.backgroundColor = .black
-        view.addSubview(scrollView)
-        scrollView.snp.makeConstraints { make in
+        view.addSubview(photoScrollView)
+        photoScrollView.snp.makeConstraints { make in
             make.top.left.right.bottom.equalTo(view)
         }
-        print(currenttPage)
         view.addSubview(pageControl)
         pageControl.pinTo(view)
         
-        scrollView.contentOffset.x = CGFloat(currenttPage) * K.screenWidth
+        photoScrollView.contentOffset.x = CGFloat(currenttPage) * K.screenWidth
     }
-
-
 }
 
 extension PhotoViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
-        pageControl.currentPage = Int(pageIndex)
+        if scrollView == photoScrollView {
+            let pageIndex = round(scrollView.contentOffset.x / view.frame.width)
+            pageControl.currentPage = Int(pageIndex)
+        }
+
     }
+    
+    func viewForZooming(in scrollView: UIScrollView) -> UIImageView? {
+        let imgView = UIImageView()
+        imgView.image = imageArray[pageControl.currentPage].image
+        return imgView
+    }
+       
+    
+    
 }

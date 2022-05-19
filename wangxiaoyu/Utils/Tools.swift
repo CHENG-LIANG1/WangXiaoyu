@@ -78,12 +78,12 @@ struct Tools {
         return newImage
     }
     
-    public static func setUpCollectionView(_ lineSpacing: Int, _ interItemSpacing: Int, _ cellHeight: Int, _ cellWidth: Int) -> UICollectionView {
+    public static func setUpCollectionView(_ lineSpacing: Int, _ interItemSpacing: Int, _ cellHeight: Int, _ cellWidth: Int, vertical: Bool) -> UICollectionView {
         
         let cellSize = CGSize(width: cellWidth, height: cellHeight)
 
         let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
+        layout.scrollDirection = vertical ? .vertical : .horizontal
         layout.itemSize = cellSize
         layout.minimumLineSpacing = CGFloat(lineSpacing)
         layout.minimumInteritemSpacing = CGFloat(interItemSpacing)

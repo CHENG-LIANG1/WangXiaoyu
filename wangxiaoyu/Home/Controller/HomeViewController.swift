@@ -14,7 +14,7 @@ import YPImagePicker
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, SKPhotoBrowserDelegate {
 
-    let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4)
+    let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4, vertical: true)
     
     
     lazy var imageArray:[PhotoModel] = []
@@ -276,6 +276,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
                         imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: photo.image))
                         DBManager.shared.addImage(imageToAdd: photo.image)
                         lastImageIndex += 1
+                        self.photoCollectionView.reloadData()
                     case .video(let video):
                         print(video)
                     }
@@ -333,8 +334,16 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 //
         let image = imageArray[indexPath.item].image
         let vc = PhotoViewController()
+        vc.modalPresentationStyle = .fullScreen
+        vc.modalTransitionStyle = .crossDissolve
         vc.currenttPage = indexPath.item
         vc.imageArray = imageArray
+        
+//        let vc = PhotoCollectionViewController()
+//        vc.modalPresentationStyle = .fullScreen
+//        vc.modalTransitionStyle = .crossDissolve
+//        vc.currentItem = indexPath.item
+//        vc.photoArray = imageArray
         present(vc, animated: true, completion: nil)
         
     }

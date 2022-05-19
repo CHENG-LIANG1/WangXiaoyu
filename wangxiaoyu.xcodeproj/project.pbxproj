@@ -7,11 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		C4A0E40A7E367DD4CEEFB6B6 /* Pods_wangxiaoyu.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62A0F466BA192DFA770BAEF7 /* Pods_wangxiaoyu.framework */; };
+		5096576EBA709DEAB7172F30 /* libPods-wangxiaoyu.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9AEDECE362F194F70DF2EA9D /* libPods-wangxiaoyu.a */; };
 		D406BA342827B0E00021CEC1 /* ImageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D406BA332827B0E00021CEC1 /* ImageViewController.swift */; };
 		D4189865281C393900B67A8A /* imageBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4189864281C393800B67A8A /* imageBottomSheet.swift */; };
 		D4189868281D1D4E00B67A8A /* DBManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4189867281D1D4E00B67A8A /* DBManager.swift */; };
-		D418986A281D296B00B67A8A /* movies.tsv in Resources */ = {isa = PBXBuildFile; fileRef = D4189869281D296B00B67A8A /* movies.tsv */; };
 		D418986C281D2E4800B67A8A /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418986B281D2E4800B67A8A /* MovieCell.swift */; };
 		D418986E281D365E00B67A8A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D418986D281D365E00B67A8A /* libsqlite3.tbd */; };
 		D49AB542281FE23400CA6430 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49AB541281FE23400CA6430 /* PhotoModel.swift */; };
@@ -19,10 +18,11 @@
 		D4D05CD92834ECB600F11A18 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CD62834ECB500F11A18 /* UIScrollView+.swift */; };
 		D4D05CDA2834ECB600F11A18 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CD72834ECB600F11A18 /* UIView+.swift */; };
 		D4D05CDB2834ECB600F11A18 /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CD82834ECB600F11A18 /* UILabel+.swift */; };
+		D4D05CDF2836079600F11A18 /* PhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CDE2836079600F11A18 /* PhotoCollectionViewController.swift */; };
+		D4D05CE128360E0B00F11A18 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CE028360E0B00F11A18 /* PhotoCollectionViewCell.swift */; };
 		D4DF7B4327A29F0400C0F5EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4227A29F0400C0F5EC /* AppDelegate.swift */; };
 		D4DF7B4527A29F0400C0F5EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4427A29F0400C0F5EC /* SceneDelegate.swift */; };
 		D4DF7B4727A29F0400C0F5EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4627A29F0400C0F5EC /* ViewController.swift */; };
-		D4DF7B4F27A29F0500C0F5EC /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4DF7B4E27A29F0500C0F5EC /* Assets.xcassets */; };
 		D4DF7B5227A29F0500C0F5EC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D4DF7B5027A29F0500C0F5EC /* LaunchScreen.storyboard */; };
 		D4DF7B7627A29FA500C0F5EC /* Tools.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B7527A29FA500C0F5EC /* Tools.swift */; };
 		D4DF7B7827A29FB700C0F5EC /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B7727A29FB700C0F5EC /* HomeViewController.swift */; };
@@ -53,8 +53,8 @@
 		079688638A8C4331F632E3E4 /* Pods-wangxiaoyu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxiaoyu.release.xcconfig"; path = "Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu.release.xcconfig"; sourceTree = "<group>"; };
 		56E4335B9809004234E71054 /* Pods-wangxioayu.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxioayu.release.xcconfig"; path = "Target Support Files/Pods-wangxioayu/Pods-wangxioayu.release.xcconfig"; sourceTree = "<group>"; };
 		6186D10AD8B059F6C5CCE5C4 /* Pods-wangxioayu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxioayu.debug.xcconfig"; path = "Target Support Files/Pods-wangxioayu/Pods-wangxioayu.debug.xcconfig"; sourceTree = "<group>"; };
-		62A0F466BA192DFA770BAEF7 /* Pods_wangxiaoyu.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_wangxiaoyu.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80ECF63292726248B73AD101 /* Pods-wangxiaoyu.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-wangxiaoyu.debug.xcconfig"; path = "Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu.debug.xcconfig"; sourceTree = "<group>"; };
+		9AEDECE362F194F70DF2EA9D /* libPods-wangxiaoyu.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-wangxiaoyu.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D406BA332827B0E00021CEC1 /* ImageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageViewController.swift; sourceTree = "<group>"; };
 		D4189864281C393800B67A8A /* imageBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = imageBottomSheet.swift; sourceTree = "<group>"; };
 		D4189866281D1D0E00B67A8A /* wangxiaoyu-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "wangxiaoyu-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -67,6 +67,8 @@
 		D4D05CD62834ECB500F11A18 /* UIScrollView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
 		D4D05CD72834ECB600F11A18 /* UIView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		D4D05CD82834ECB600F11A18 /* UILabel+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+.swift"; sourceTree = "<group>"; };
+		D4D05CDE2836079600F11A18 /* PhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewController.swift; sourceTree = "<group>"; };
+		D4D05CE028360E0B00F11A18 /* PhotoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewCell.swift; sourceTree = "<group>"; };
 		D4DF7B3F27A29F0400C0F5EC /* wangxiaoyu.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = wangxiaoyu.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4DF7B4227A29F0400C0F5EC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4DF7B4427A29F0400C0F5EC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,7 +92,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D418986E281D365E00B67A8A /* libsqlite3.tbd in Frameworks */,
-				C4A0E40A7E367DD4CEEFB6B6 /* Pods_wangxiaoyu.framework in Frameworks */,
+				5096576EBA709DEAB7172F30 /* libPods-wangxiaoyu.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,6 +137,7 @@
 				D4DF7B7B27A2B81600C0F5EC /* PhotoCell.swift */,
 				D4189864281C393800B67A8A /* imageBottomSheet.swift */,
 				D406BA332827B0E00021CEC1 /* ImageViewController.swift */,
+				D4D05CE028360E0B00F11A18 /* PhotoCollectionViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -144,6 +147,7 @@
 			children = (
 				D4DF7B7727A29FB700C0F5EC /* HomeViewController.swift */,
 				D4D05CD42834D43C00F11A18 /* PhotoViewController.swift */,
+				D4D05CDE2836079600F11A18 /* PhotoCollectionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -264,7 +268,7 @@
 			isa = PBXGroup;
 			children = (
 				D418986D281D365E00B67A8A /* libsqlite3.tbd */,
-				62A0F466BA192DFA770BAEF7 /* Pods_wangxiaoyu.framework */,
+				9AEDECE362F194F70DF2EA9D /* libPods-wangxiaoyu.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -280,7 +284,7 @@
 				D4DF7B3B27A29F0400C0F5EC /* Sources */,
 				D4DF7B3C27A29F0400C0F5EC /* Frameworks */,
 				D4DF7B3D27A29F0400C0F5EC /* Resources */,
-				59BB180B8E083D5559F0B9CB /* [CP] Embed Pods Frameworks */,
+				EEFC6A7271226F742FF5399C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -375,9 +379,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D418986A281D296B00B67A8A /* movies.tsv in Resources */,
 				D4DF7B5227A29F0500C0F5EC /* LaunchScreen.storyboard in Resources */,
-				D4DF7B4F27A29F0500C0F5EC /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -420,21 +422,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		59BB180B8E083D5559F0B9CB /* [CP] Embed Pods Frameworks */ = {
+		EEFC6A7271226F742FF5399C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -445,6 +447,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D4D05CDB2834ECB600F11A18 /* UILabel+.swift in Sources */,
+				D4D05CE128360E0B00F11A18 /* PhotoCollectionViewCell.swift in Sources */,
 				D4DF7B7E27A2BA7200C0F5EC /* K.swift in Sources */,
 				D4D05CD92834ECB600F11A18 /* UIScrollView+.swift in Sources */,
 				D4DF7B8027A2DA1500C0F5EC /* MemoriesViewController.swift in Sources */,
@@ -458,6 +461,7 @@
 				D4DF7B7C27A2B81600C0F5EC /* PhotoCell.swift in Sources */,
 				D4DF7B7627A29FA500C0F5EC /* Tools.swift in Sources */,
 				D406BA342827B0E00021CEC1 /* ImageViewController.swift in Sources */,
+				D4D05CDF2836079600F11A18 /* PhotoCollectionViewController.swift in Sources */,
 				D4DF7B7827A29FB700C0F5EC /* HomeViewController.swift in Sources */,
 				D49AB542281FE23400CA6430 /* PhotoModel.swift in Sources */,
 				D4189868281D1D4E00B67A8A /* DBManager.swift in Sources */,
