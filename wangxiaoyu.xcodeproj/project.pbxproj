@@ -20,6 +20,7 @@
 		D4D05CDB2834ECB600F11A18 /* UILabel+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CD82834ECB600F11A18 /* UILabel+.swift */; };
 		D4D05CDF2836079600F11A18 /* PhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CDE2836079600F11A18 /* PhotoCollectionViewController.swift */; };
 		D4D05CE128360E0B00F11A18 /* PhotoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CE028360E0B00F11A18 /* PhotoCollectionViewCell.swift */; };
+		D4D05CE328368F2500F11A18 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4DF7B4E27A29F0500C0F5EC /* Assets.xcassets */; };
 		D4DF7B4327A29F0400C0F5EC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4227A29F0400C0F5EC /* AppDelegate.swift */; };
 		D4DF7B4527A29F0400C0F5EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4427A29F0400C0F5EC /* SceneDelegate.swift */; };
 		D4DF7B4727A29F0400C0F5EC /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4DF7B4627A29F0400C0F5EC /* ViewController.swift */; };
@@ -379,6 +380,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4D05CE328368F2500F11A18 /* Assets.xcassets in Resources */,
 				D4DF7B5227A29F0500C0F5EC /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,11 +430,9 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-wangxiaoyu/Pods-wangxiaoyu-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;

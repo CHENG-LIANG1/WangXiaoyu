@@ -8,11 +8,10 @@
 import UIKit
 import SnapKit
 import Photos
-import SKPhotoBrowser
 import SDCAlertView
 import HXPHPicker
 
-class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate, SKPhotoBrowserDelegate {
+class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 
 
     let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4, vertical: true)
@@ -137,11 +136,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         }
 
 
-        SKPhotoBrowserOptions.displayDeleteButton = true
-        SKPhotoBrowserOptions.enableSingleTapDismiss = true
-        SKPhotoBrowserOptions.displayAction = false
-        SKPhotoBrowserOptions.displayCloseButton = false
-
 
         self.view.backgroundColor = UIColor.init(named: "backgroundColor")
         definesPresentationContext = true
@@ -195,7 +189,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         
     }
     
-
+    override var shouldAutorotate: Bool{
+        return false
+    }
     
     @objc func appResignActive() {
         view.addSubview(blurEffectView)
@@ -224,6 +220,9 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     func presentPickerController() {
         // Set the configuration consistent with the WeChat theme
         let config = PhotoTools.getWXPickerConfig()
+        config.allowSelectedTogether = false
+        config.selectOptions = .livePhoto
+        
 
         let pickerController = PhotoPickerController(picker: config)
         pickerController.pickerDelegate = self
@@ -277,7 +276,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         let image = imageArray[indexPath.item].image
         let vc = PhotoViewController()
         vc.modalPresentationStyle = .fullScreen
-        vc.modalTransitionStyle = .crossDissolve
+        vc.modalTransitionStyle = .coverVertical
         vc.currenttPage = indexPath.item
         vc.imageArray = imageArray
         vc.selectedImageIndex = self.selectedImageIndex
@@ -305,6 +304,8 @@ extension HomeViewController: PhotoPickerControllerDelegate {
     ///     result.isOriginal   是否选中原图
     func pickerController(_ pickerController: PhotoPickerController,
                             didFinishSelection result: PickerResult) {
+        
+        
         result.getImage { (image, photoAsset, index) in
             if let image = image {
                 print("success", image)
@@ -322,6 +323,8 @@ extension HomeViewController: PhotoPickerControllerDelegate {
             self.photoCollectionView.reloadData()
             print(images)
         }
+        
+
     }
     
     /// 点击取消时调用

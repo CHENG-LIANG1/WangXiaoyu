@@ -7,6 +7,7 @@
 
 import UIKit
 import ZoomImageView
+import SDCAlertView
 
 class PhotoViewController: UIViewController {
     
@@ -16,7 +17,7 @@ class PhotoViewController: UIViewController {
     var selectedImageIndex = 0
 
     let moreButton = Tools.setUpButtonWithSystemImage(systemName: "ellipsis.circle.fill", width: 37, height: 35, color: .gray)
-    
+    var lastOffset = 0
     
     func createImagePageView(image: UIImage) -> UIView{
         let view = UIView()
@@ -34,6 +35,14 @@ class PhotoViewController: UIViewController {
             make.right.equalTo(-offset)
             make.left.equalTo(offset)
         }
+        
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(imageLongPressed(sender:)))
+        
+        imgV.addGestureRecognizer(longPress)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
+        swipeDown.direction = .down
+        self.view.addGestureRecognizer(swipeDown)
         
 
         
@@ -62,7 +71,7 @@ class PhotoViewController: UIViewController {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.isPagingEnabled = true
-        scrollView.contentSize = CGSize(width: (view.frame.width + CGFloat(offset)) * CGFloat(pages.count), height: view.frame.height * 1.0)
+        scrollView.contentSize = CGSize(width: (view.frame.width + CGFloat(offset)) * CGFloat(pages.count), height: view.frame.height * 1.00)
         scrollView.maximumZoomScale = 4.0
         for i in 0..<pages.count {
             scrollView.addSubview(pages[i])
@@ -103,12 +112,33 @@ class PhotoViewController: UIViewController {
     @objc
     func morePressed(sender: UIButton){
         sender.showAnimation { [self] in
-            let bottomSheet = ImageBottomSheet()
-            bottomSheet.tartgetImage = imageArray[pageControl.currentPage].image!
-            bottomSheet.selectedImageID = imageArray[pageControl.currentPage].photoID!
-            self.present(bottomSheet, animated: true, completion: nil)
+//            let bottomSheet = ImageBottomSheet()
+//            bottomSheet.tartgetImage = imageArray[pageControl.currentPage].image!
+//            bottomSheet.selectedImageID = imageArray[pageControl.currentPage].photoID!
+//            self.present(bottomSheet, animated: true, completion: nil)
+            displayActionSheet()
         }
         
+    }
+    
+    @objc func respondToSwipeGesture(gesture: UIGestureRecognizer) {
+
+        if let swipeGesture = gesture as? UISwipeGestureRecognizer {
+
+            switch swipeGesture.direction {
+            case .right:
+                print("Swiped right")
+            case .down:
+                print("Swiped down")
+                self.dismiss(animated: true, completion: nil)
+            case .left:
+                print("Swiped left")
+            case .up:
+                print("Swiped up")
+            default:
+                break
+            }
+        }
     }
     
     
@@ -116,6 +146,86 @@ class PhotoViewController: UIViewController {
 //        self.showToast(message: "已删除", fontSize: 14, bgColor: K.red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
         self.dismiss(animated: true, completion: nil)
     }
+    
+    @objc func imageLongPressed(sender: UILongPressGestureRecognizer){
+        
+        if sender.state == UIGestureRecognizer.State.began {
+            Tools.Viberation.heavy.viberate()
+            displayActionSheet()
+        }
+    
+        
+    }
+    
+    
+    @objc func saveCompleted(_ image: UIImage,
+        didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+
+        if let error = error {
+            print("ERROR: \(error)")
+        }else {
+            self.showToast(message: "已下载", fontSize: 14, bgColor: K.brandGreen, textColor: .white, width: 80, height: 30, delayTime: 0.1)
+        }
+    }
+   
+   func writeToPhotoAlbum(image: UIImage) {
+         UIImageWriteToSavedPhotosAlbum(image, self, #selector(saveCompleted), nil)
+     }
+   
+    
+    func displayActionSheet(){
+        let actionSheet = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
+        
+        actionSheet.addAction(UIAlertAction(title: "保存图片", style: .default, handler: { UIAlertAction in
+            self.writeToPhotoAlbum(image: self.imageArray[self.pageControl.currentPage].image!)
+        }))
+        
+        
+        actionSheet.addAction(UIAlertAction(title: "分享图片", style: .default, handler: { [self] UIAlertAction in
+            
+            let imageToShare = [ imageArray[pageControl.currentPage].image! ]
+            let activityViewController = UIActivityViewController(activityItems: imageToShare, applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            activityViewController.excludedActivityTypes = [ UIActivity.ActivityType.airDrop, UIActivity.ActivityType.postToTwitter ]
+            
+            self.present(activityViewController, animated: true, completion: nil)
+        }))
+        
+        
+        actionSheet.addAction(UIAlertAction(title: "删除图片", style: .destructive, handler: { UIAlertAction in
+            self.removePhoto()
+        }))
+        
+        actionSheet.addAction(UIAlertAction(title: "取消", style: .cancel, handler: { UIAlertAction in
+            
+        }))
+        
+        
+        
+        self.present(actionSheet, animated: true, completion: nil)
+    }
+    
+    @objc func removePhoto() {
+
+        let alert = AlertController(title: "是否删除这张照片？", message: "", preferredStyle: .alert)
+        let cancelAction = AlertAction(title: "取消", style: .normal) { AlertAction in
+       
+        }
+        
+        let deleteAction = AlertAction(title: "删除", style: .destructive) { [self] AlertAction  in
+            DBManager.shared.deleteImage(id: imageArray[pageControl.currentPage].photoID!)
+            self.dismiss(animated: true, completion: nil )
+            NotificationCenter.default.post(name: Notification.Name.init(rawValue: "deletePhoto"), object: nil )
+
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
+
+        alert.present()
+        
+
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
