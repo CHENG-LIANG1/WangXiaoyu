@@ -10,13 +10,15 @@ import SnapKit
 import Photos
 import SDCAlertView
 import HXPHPicker
+import SCLAlertView
+import Toast_Swift
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 
 
 
     
-    let albumCollectionView = Tools.setUpCollectionView(12, 12, Int(K.screenWidth - 64) / 7 * 3, Int(K.screenWidth - 64) / 3, vertical: true)
+    let albumCollectionView = Tools.setUpCollectionView(24, 12, Int(K.screenWidth - 64) / 7 * 3, Int(K.screenWidth - 64) / 3, vertical: true)
 
 //    lazy var imageArray:[PhotoModel] = []
 //    
@@ -31,6 +33,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     var modeRadius = 0
 
     var blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
+    
+    var albumNameTextField = UITextField()
 
     var appBar: UIView = {
         let view = UIView()
@@ -53,7 +57,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
 //            make.right.equalTo(view).offset(-16)
 //        }
         
-        Tools.setHeight(view, 80)
+        Tools.setHeight(view, 100)
         
         return view
     }()
@@ -98,17 +102,29 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     
     var albumTitles = [String]()
     
+    lazy var albums = [Album]()
+    
     
     override func viewWillAppear(_ animated: Bool) {
-//        imageArray = DBManager.shared.loadImages()
-//        lastImageIndex = imageArray[imageArray.count - 1].photoID!
-//        self.photoCollectionView.reloadData()
-        albumTitles = DBManager.shared.getAllTableNames()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        super.viewWillAppear(animated)
+
+        albums = []
+        
+        for title in albumTitles {
+            let rows = DBManager.shared.getNumOfRows(tableName: title)
+            let coverImamge = DBManager.shared.getTheFirstImage(tableName: title)
+            let album = Album(name: title, coverImage: coverImamge, numOfRows: rows)
+            albums.append(album)
+        }
+        
+        self.albumCollectionView.reloadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        albumTitles = DBManager.shared.getAllTableNames()
+        
        
         configureViews()
         layoutViews()
@@ -119,7 +135,7 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         blurEffectView.frame = view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
-        self.navigationController!.navigationBar.tintColor = .black
+        self.navigationController!.navigationBar.tintColor = UIColor.init(named: "textColor")
 
         self.shouldFit = UserDefaults.standard.bool(forKey: "mode")
 
@@ -195,29 +211,89 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     }
     
     @objc func addPressed(sender:UIButton){
-        sender.showAnimation { [self] in
-//            presentPickerController()
-//
-           
+        let appearance = SCLAlertView.SCLAppearance(
+            kTitleFont: UIFont(name: "HelveticaNeue", size: 20)!,
+            kTextFont: UIFont(name: "HelveticaNeue", size: 14)!,
+            kButtonFont: UIFont(name: "HelveticaNeue-Bold", size: 14)!,
+            showCloseButton: false,
+            showCircularIcon: false,
+            contentViewCornerRadius: 15, buttonCornerRadius: 10,
+            hideWhenBackgroundViewIsTapped: true
+        )
+
+        // Initialize SCLAlertView using custom Appearance
+        let alert = SCLAlertView(appearance: appearance)
+
+
+        // Creat the subview
+        let subview = UIView(frame: CGRect(x:0,y:0,width:216,height:60))
+        let x = (subview.frame.width - 180) / 2
+
+        // Add textfield 1
+        albumNameTextField = UITextField(frame: CGRect(x:x, y:10, width:180,height:40))
+        albumNameTextField.layer.borderColor = UIColor.gray.cgColor
+        albumNameTextField.layer.borderWidth = 1
+        albumNameTextField.layer.cornerRadius = 10
+        albumNameTextField.textColor = .black
+        albumNameTextField.textAlignment = NSTextAlignment.center
+        albumNameTextField.delegate = self
+
+        
+        subview.addSubview(albumNameTextField)
+
+        // Add the subview to the alert's UI property
+        alert.customSubview = subview
+        alert.addButton("确认") { [self] in
+            print(albumNameTextField.text)
+            if albumTitles.contains(albumNameTextField.text!) {
+                self.view.makeToast("创建失败！相册已存在", duration: 3.0, position: .center)
+                
+            }else{
+                
+                DBManager.shared.addAlbum(albumTableName: albumNameTextField.text!)
+                let album = Album(name: albumNameTextField.text!, coverImage: nil, numOfRows: 0)
+                albumTitles.append(albumNameTextField.text!)
+                albums.append(album)
+                self.albumCollectionView.reloadData()
+            }
+            
+
+        }
+
+
+        alert.showInfo("添加相册", subTitle: "")
+
         }
     }
     
     
+extension HomeViewController: UITextFieldDelegate{
+    func textFieldDidBeginEditing(_ textField: UITextField) {
+        albumNameTextField.layer.borderColor = K.appBlue.cgColor
+        albumNameTextField.layer.borderWidth = 1.5
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        albumNameTextField.layer.borderColor = UIColor.lightGray.cgColor
+        albumNameTextField.layer.borderWidth = 1
+    }
 }
+
 
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
     
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return albumTitles.count
+        return albums.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AlbumCell", for: indexPath) as! AlbumCell
         
-        cell.imageView.image = UIImage(named: "placeholder")
-        cell.albumTitleLabel.text = albumTitles[indexPath.item]
+        cell.albumTitleLabel.text = albums[indexPath.item].name!
+        cell.imageView.image = albums[indexPath.item].coverImage ?? UIImage(named: "placeholder")
+        cell.photoNumLabel.text = "\(albums[indexPath.item].numOfRows ?? 0)"
         
         return cell
         
@@ -227,7 +303,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
         let vc = PhotoCollectionViewController()
         vc.hidesBottomBarWhenPushed = true
-        vc.albumTitle = albumTitles[indexPath.item]
+        vc.albumTitle = albums[indexPath.item].name!
         self.screenShotCapsule.isHidden = true
         navigationController?.pushViewController(vc, animated: true)
 

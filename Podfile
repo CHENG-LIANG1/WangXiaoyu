@@ -17,4 +17,6 @@ target 'wangxiaoyu' do
   pod 'CardTabBar'
   pod 'ZoomImageView'
   pod 'HXPHPicker'
+  pod 'SCLAlertView'
+  pod 'Toast-Swift', '~> 5.0.1'
 end

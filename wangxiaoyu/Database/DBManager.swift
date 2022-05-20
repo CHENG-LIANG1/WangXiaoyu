@@ -65,12 +65,22 @@ class DBManager: NSObject {
         return created
     }
     
-//    func addAlbum(albumTableName: String){
-//        let createPhotosTable = "create table if not exists \(albumTableName) (albumId integer primary key autoincrement not null, image text)"
-//        if createDatabase(initialQuery: createPhotosTable, baseName: "\(albumTableName).sqlite") {
-//            print("created \(albumTableName)")
-//        }
-//    }
+    func addAlbum(albumTableName: String){
+        let createPhotosTable = "create table if not exists \(albumTableName) (photoID integer primary key autoincrement not null, image text)"
+        
+        if openDatabase() {
+            do {
+                let result = try database.executeQuery(createPhotosTable, values: nil)
+                if result.next(){
+                    print("album added")
+                
+                }
+                
+            }catch{
+                
+            }
+        }
+    }
     
     
     
@@ -139,6 +149,29 @@ class DBManager: NSObject {
         }
     }
     
+    func getNumOfRows(tableName: String) -> Int {
+        
+        var rowNum = 0
+        if openDatabase() {
+            let query = "SELECT COUNT(1) FROM \(tableName);"
+            
+            do{
+                let results = try database.executeQuery(query, values: nil)
+                
+                while results.next() {
+                    rowNum = Int(results.int(forColumnIndex: 0))
+                    print(rowNum)
+                    
+                }
+                
+            }catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        database.close()
+        return rowNum
+    }
     
     func getAllTableNames() -> [String] {
         var names = [String]()
@@ -161,6 +194,7 @@ class DBManager: NSObject {
             }
         }
         
+        database.close()
         return names
     }
     
@@ -178,8 +212,36 @@ class DBManager: NSObject {
             }
             
         }
+        database.close()
     }
     
+    
+    func getTheFirstImage(tableName: String) -> UIImage {
+        var image = UIImage(named: "placeholder")
+        if openDatabase() {
+            let query = "select * from \(tableName) limit 1"
+
+            do {
+                let results = try database.executeQuery(query, values: nil)
+
+
+                while results.next() {
+                    let imageDataString = results.string(forColumn: "image")
+                    let imageData = Data(base64Encoded: imageDataString!)
+                    image = UIImage(data: imageData!)!
+                                        
+                }
+                
+            }
+            catch {
+                print(error.localizedDescription)
+            }
+
+            database.close()
+        }
+
+        return image!
+    }
     
     func loadImages(albumName: String) -> [PhotoModel] {
         var images = [PhotoModel]()

@@ -20,11 +20,13 @@ class AlbumCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let photoNumLabel: UILabel = {
         let lbl = UILabel()
         lbl.textColor = .gray
-        lbl.font = .systemFont(ofSize: 12, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 14, weight: .semibold)
         return lbl
     }()
     
     let moreActionsButton = Tools.setUpButtonWithSystemImage(systemName: "ellipsis", width: 30, height: 30, color: .black)
+    
+    let containerView = UIView()
     
     override func prepareForReuse() {
         super.prepareForReuse()
@@ -33,34 +35,32 @@ class AlbumCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
-        imageView.contentMode = .scaleAspectFit
+        imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-//        imageView.layer.cornerRadius = 10
         
+        imageView.layer.cornerRadius = 5
     
-        contentView.layer.borderWidth = 0.5
-        contentView.layer.cornerRadius = 10
-        contentView.layer.borderColor = UIColor.gray.cgColor
-    
-//        contentView.addShadow(opacity: 0.8, radius: 19, width: 2.0, height: 2.0, color: .black)
-//
+        contentView.addSubview(containerView)
+        containerView.snp.makeConstraints { make in
+            make.top.left.right.bottom.equalTo(contentView)
+        }
         
-        contentView.addSubview(imageView)
+        containerView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
-            make.top.left.right.equalTo(contentView)
+            make.top.left.right.equalTo(containerView)
         }
         Tools.setHeight(imageView, Float(imageWidth))
         
-        contentView.addSubview(albumTitleLabel)
+        containerView.addSubview(albumTitleLabel)
         albumTitleLabel.snp.makeConstraints { make in
-            make.left.equalTo(contentView).offset(8)
-            make.top.equalTo(imageView.snp_bottomMargin).offset(8)
+            make.left.equalTo(containerView)
+            make.top.equalTo(imageView.snp_bottomMargin).offset(12)
         }
         
-        contentView.addSubview(photoNumLabel)
+        containerView.addSubview(photoNumLabel)
         photoNumLabel.snp.makeConstraints { make in
-            make.left.equalTo(albumTitleLabel.snp_rightMargin).offset(8)
-            make.top.equalTo(imageView.snp_bottomMargin).offset(8)
+            make.left.equalTo(albumTitleLabel)
+            make.top.equalTo(albumTitleLabel.snp_bottomMargin).offset(12)
         }
         
     }

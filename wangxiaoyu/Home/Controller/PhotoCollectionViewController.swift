@@ -36,7 +36,7 @@ class PhotoCollectionViewController: UIViewController {
     let titleLabel = UILabel()
 
         
-    
+    var blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.light))
     let modeButton: UIButton = {
         let btn = UIButton()
         btn.layer.cornerRadius = 12.5
@@ -56,6 +56,7 @@ class PhotoCollectionViewController: UIViewController {
     }
     
     
+    
     func presentPickerController() {
         // Set the configuration consistent with the WeChat theme
         let config = PhotoTools.getWXPickerConfig()
@@ -68,17 +69,37 @@ class PhotoCollectionViewController: UIViewController {
         present(pickerController, animated: true, completion: nil)
     }
     
+    @objc func addPressed(sender:UIButton){
+        sender.showAnimation { [self] in
+            presentPickerController()
+
+           
+        }
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         imageArray = DBManager.shared.loadImages(albumName: albumTitle)
-        lastImageIndex = imageArray[imageArray.count - 1].photoID!
+        if imageArray.count > 0 {
+            lastImageIndex = imageArray[imageArray.count - 1].photoID!
+        }
+
         self.navigationController?.setNavigationBarHidden(false, animated: false)
         self.navigationController?.navigationBar.isHidden = false
         self.photoCollectionView.reloadData()
     }
     
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        blurEffectView.frame = view.bounds
+        blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        let notificationCenter = NotificationCenter.default
+        notificationCenter.addObserver(self, selector: #selector(appResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+
+        notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         
         self.photoCollectionView.backgroundColor = UIColor(named: "backgroundColor")
         photoCollectionView.delegate = self
@@ -97,6 +118,8 @@ class PhotoCollectionViewController: UIViewController {
             make.bottom.equalTo(view).offset(0)
         }
         
+        addButton.addTarget(self, action: #selector(addPressed(sender:)), for: .touchUpInside)
+        
         view.addSubview(addButton)
         addButton.snp.makeConstraints { make in
             make.right.equalTo(view).offset(-25)
@@ -104,6 +127,14 @@ class PhotoCollectionViewController: UIViewController {
         }
         
     }
+    
+    @objc func appResignActive() {
+            view.addSubview(blurEffectView)
+        }
+        
+    @objc func appBecameActive() {
+            blurEffectView.removeFromSuperview()
+        }
 
 }
 
@@ -117,8 +148,6 @@ extension PhotoCollectionViewController: UICollectionViewDelegate, UICollectionV
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
         
         cell.imageView.image = imageArray[indexPath.item].image!
-        cell.imageView.contentMode = .scaleAspectFit
-        cell.imageView.clipsToBounds = true
         cell.imageView.layer.cornerRadius = CGFloat(10)
         
         return cell
@@ -175,30 +204,14 @@ extension PhotoCollectionViewController: PhotoPickerControllerDelegate {
             if item.mediaType == .photo {
                 imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: item.originalImage))
                 DBManager.shared.addImage(imageToAdd: item.originalImage!, albumName: "所有图片")
+                DBManager.shared.addImage(imageToAdd: item.originalImage!, albumName: albumTitle)
                 lastImageIndex += 1
                 self.photoCollectionView.reloadData()
             }else{
                 print("it's a video")
             }
         }
-        
-//        result.getImage { (image, photoAsset, index) in
-//            if let image = image {
-//                print("success", image)
-//            }else {
-//                print("failed")
-//            }
-//        } completionHandler: { [self] (images) in
-//
-//            for image in images{
-//                imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: image))
-//                DBManager.shared.addImage(imageToAdd: image)
-//                lastImageIndex += 1
-//            }
-//
-//            self.photoCollectionView.reloadData()
-//            print(images)
-//        }
+
         
 
     }

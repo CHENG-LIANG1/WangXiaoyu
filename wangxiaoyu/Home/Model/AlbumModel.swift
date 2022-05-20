@@ -10,4 +10,5 @@ import UIKit
 struct Album {
     var name: String?
     var coverImage: UIImage?
+    var numOfRows: Int?
 }

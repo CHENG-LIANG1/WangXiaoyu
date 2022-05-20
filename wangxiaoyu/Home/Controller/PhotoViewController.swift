@@ -65,6 +65,8 @@ class PhotoViewController: UIViewController {
     
     lazy var pages = createPages()
     
+
+    
     
     lazy var photoScrollView: UIScrollView = {
         let scrollView = UIScrollView()
