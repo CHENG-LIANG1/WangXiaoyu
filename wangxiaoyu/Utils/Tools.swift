@@ -88,6 +88,7 @@ struct Tools {
         layout.minimumLineSpacing = CGFloat(lineSpacing)
         layout.minimumInteritemSpacing = CGFloat(interItemSpacing)
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.alwaysBounceVertical = true
         cv.translatesAutoresizingMaskIntoConstraints = false
         cv.backgroundColor = .white
         cv.showsVerticalScrollIndicator = false

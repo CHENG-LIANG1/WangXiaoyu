@@ -16,7 +16,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
 
     let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4, vertical: true)
     
-    
     lazy var imageArray:[PhotoModel] = []
     
     var selectedImageIndex = 0

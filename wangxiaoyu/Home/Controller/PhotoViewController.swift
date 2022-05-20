@@ -150,7 +150,7 @@ class PhotoViewController: UIViewController {
     @objc func imageLongPressed(sender: UILongPressGestureRecognizer){
         
         if sender.state == UIGestureRecognizer.State.began {
-            Tools.Viberation.heavy.viberate()
+
             displayActionSheet()
         }
     
@@ -174,6 +174,7 @@ class PhotoViewController: UIViewController {
    
     
     func displayActionSheet(){
+        Tools.Viberation.heavy.viberate()
         let actionSheet = UIAlertController(title:nil, message: nil, preferredStyle: .actionSheet)
         
         actionSheet.addAction(UIAlertAction(title: "保存图片", style: .default, handler: { UIAlertAction in

