@@ -14,15 +14,17 @@ import HXPHPicker
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 
 
-    let photoCollectionView = Tools.setUpCollectionView(8, 8, Int(K.screenWidth - 40) / 4, Int(K.screenWidth - 40) / 4, vertical: true)
+
     
-    lazy var imageArray:[PhotoModel] = []
-    
-    var selectedImageIndex = 0
-    
-    var lastImageIndex = 0
-    
-    var selectedImageID = 0
+    let albumCollectionView = Tools.setUpCollectionView(12, 12, Int(K.screenWidth - 64) / 7 * 3, Int(K.screenWidth - 64) / 3, vertical: true)
+
+//    lazy var imageArray:[PhotoModel] = []
+//    
+//    var selectedImageIndex = 0
+//    
+//    var lastImageIndex = 0
+//    
+//    var selectedImageID = 0a
     
     
     var mode = UIView.ContentMode.scaleAspectFit
@@ -43,23 +45,13 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             make.bottom.equalTo(view).offset(0)
         }
         
-        let modeButton: UIButton = {
-            let btn = UIButton()
-            btn.layer.cornerRadius = 12.5
-            btn.setTitle("Mode", for: .normal)
-            btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 14)
-            Tools.setHeight(btn, 25)
-            Tools.setWidth(btn, 60)
-            btn.setBackgroundColor(color: K.brandDark, forState: .normal)
-            return btn
-        }()
-        
-        view.addSubview(modeButton)
-        modeButton.addTarget(self, action: #selector(modePressed(sender:)), for: .touchUpInside)
-        modeButton.snp.makeConstraints { make in
-            make.bottom.equalTo(view).offset(-4)
-            make.right.equalTo(view).offset(-16)
-        }
+
+//        view.addSubview(modeButton)
+//        modeButton.addTarget(self, action: #selector(modePressed(sender:)), for: .touchUpInside)
+//        modeButton.snp.makeConstraints { make in
+//            make.bottom.equalTo(view).offset(-4)
+//            make.right.equalTo(view).offset(-16)
+//        }
         
         Tools.setHeight(view, 80)
         
@@ -104,17 +96,20 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     
     var shouldFit = false
     
+    var albumTitles = [String]()
+    
     
     override func viewWillAppear(_ animated: Bool) {
-        imageArray = DBManager.shared.loadImages()
-        lastImageIndex = imageArray[imageArray.count - 1].photoID!
-        self.photoCollectionView.reloadData()
+//        imageArray = DBManager.shared.loadImages()
+//        lastImageIndex = imageArray[imageArray.count - 1].photoID!
+//        self.photoCollectionView.reloadData()
+        albumTitles = DBManager.shared.getAllTableNames()
         self.navigationController?.setNavigationBarHidden(true, animated: false)
     }
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
+       
         configureViews()
         layoutViews()
     }
@@ -123,6 +118,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         
         blurEffectView.frame = view.bounds
         blurEffectView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        
+        self.navigationController!.navigationBar.tintColor = .black
 
         self.shouldFit = UserDefaults.standard.bool(forKey: "mode")
 
@@ -135,14 +132,13 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         }
 
 
-
         self.view.backgroundColor = UIColor.init(named: "backgroundColor")
         definesPresentationContext = true
 
-        self.photoCollectionView.backgroundColor = UIColor(named: "backgroundColor")
-        photoCollectionView.delegate = self
-        photoCollectionView.dataSource = self
-        photoCollectionView.register(PhotoCell.self, forCellWithReuseIdentifier: "PhotoCell")
+        self.albumCollectionView.backgroundColor = UIColor(named: "backgroundColor")
+        albumCollectionView.delegate = self
+        albumCollectionView.dataSource = self
+        albumCollectionView.register(AlbumCell.self, forCellWithReuseIdentifier: "AlbumCell")
 
         addButton.addTarget(self, action: #selector(addPressed(sender:)), for: .touchUpInside)
 
@@ -152,7 +148,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         notificationCenter.addObserver(self, selector: #selector(appResignActive), name: UIApplication.willResignActiveNotification, object: nil)
 
         notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-        
         notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
@@ -165,12 +160,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             make.right.equalTo(view)
         }
         
-        
-        view.addSubview(photoCollectionView)
-        photoCollectionView.snp.makeConstraints { make in
+        view.addSubview(albumCollectionView)
+        albumCollectionView.snp.makeConstraints { make in
             make.top.equalTo(appBar.snp_bottomMargin).offset(16)
-            make.left.equalTo(view).offset(8)
-            make.right.equalTo(view).offset(-8)
+            make.left.equalTo(view).offset(16)
+            make.right.equalTo(view).offset(-16)
             make.bottom.equalTo(view).offset(0)
         }
         
@@ -200,39 +194,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         blurEffectView.removeFromSuperview()
     }
     
-    @objc func modePressed(sender: UIButton){
-        sender.showAnimation { [self] in
-            if mode == .scaleAspectFit {
-                mode = .scaleAspectFill
-                modeRadius = 10
-                UserDefaults.standard.set(false, forKey: "mode")
-                self.photoCollectionView.reloadData()
-            }else{
-                mode = .scaleAspectFit
-                modeRadius = 0
-                UserDefaults.standard.set(true, forKey: "mode")
-                self.photoCollectionView.reloadData()
-            }
-        }
-    }
-    
-    func presentPickerController() {
-        // Set the configuration consistent with the WeChat theme
-        let config = PhotoTools.getWXPickerConfig()
-        config.allowSelectedTogether = false
-        config.selectOptions = .livePhoto
-        
-
-        let pickerController = PhotoPickerController(picker: config)
-        pickerController.pickerDelegate = self
-
-        present(pickerController, animated: true, completion: nil)
-    }
-    
     @objc func addPressed(sender:UIButton){
         sender.showAnimation { [self] in
-            presentPickerController()
-           
+//            presentPickerController()
+//
            
         }
     }
@@ -242,93 +207,33 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
 
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource{
+    
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return imageArray.count
+        return albumTitles.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PhotoCell", for: indexPath) as! PhotoCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "AlbumCell", for: indexPath) as! AlbumCell
         
-        cell.imageView.image = imageArray[indexPath.item].image!
-        cell.imageView.contentMode = self.mode
-        cell.imageView.clipsToBounds = true
-        cell.imageView.layer.cornerRadius = CGFloat(modeRadius)
+        cell.imageView.image = UIImage(named: "placeholder")
+        cell.albumTitleLabel.text = albumTitles[indexPath.item]
         
         return cell
         
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        var skImages = [SKPhoto]()
-//        let photo = SKPhoto.photoWithImage(imageArray[indexPath.item].image!)
-        selectedImageIndex = indexPath.item
-        selectedImageID = imageArray[indexPath.item].photoID!
-//
-//        skImages.append(photo)
-//        let browser = SKPhotoBrowser(photos: skImages)
-//
-//        browser.delegate = self
-//
-//        present(browser, animated: true, completion: nil)
-//        browser.updateDeleteButton(UIImage(named: "delete")!, size: CGSize(width: 60, height: 60))
-//
-        let image = imageArray[indexPath.item].image
-        let vc = PhotoViewController()
-        vc.modalPresentationStyle = .fullScreen
-        vc.modalTransitionStyle = .coverVertical
-        vc.currenttPage = indexPath.item
-        vc.imageArray = imageArray
-        vc.selectedImageIndex = self.selectedImageIndex
-//        let vc = PhotoCollectionViewController()
-//        vc.modalPresentationStyle = .fullScreen
-//        vc.modalTransitionStyle = .crossDissolve
-//        vc.currentItem = indexPath.item
-//        vc.photoArray = imageArray
-        present(vc, animated: true, completion: nil)
+
+        let vc = PhotoCollectionViewController()
+        vc.hidesBottomBarWhenPushed = true
+        vc.albumTitle = albumTitles[indexPath.item]
+        self.screenShotCapsule.isHidden = true
+        navigationController?.pushViewController(vc, animated: true)
+
         
     }
     
 
     
-}
-
-
-extension HomeViewController: PhotoPickerControllerDelegate {
-    
-    /// 选择完成之后调用
-    /// - Parameters:
-    ///   - pickerController: 对应的 PhotoPickerController
-    ///   - result: 选择的结果
-    ///     result.photoAssets  选择的资源数组
-    ///     result.isOriginal   是否选中原图
-    func pickerController(_ pickerController: PhotoPickerController,
-                            didFinishSelection result: PickerResult) {
-        
-        
-        result.getImage { (image, photoAsset, index) in
-            if let image = image {
-                print("success", image)
-            }else {
-                print("failed")
-            }
-        } completionHandler: { [self] (images) in
-            
-            for image in images{
-                imageArray.append(PhotoModel(photoID: lastImageIndex + 1, image: image))
-                DBManager.shared.addImage(imageToAdd: image)
-                lastImageIndex += 1
-            }
-
-            self.photoCollectionView.reloadData()
-            print(images)
-        }
-        
-
-    }
-    
-    /// 点击取消时调用
-    /// - Parameter pickerController: 对应的 PhotoPickerController
-    func pickerController(didCancel pickerController: PhotoPickerController) {
-        
-    }
 }

@@ -17,10 +17,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        let createPhotosTable = "create table if not exists photoTB (photoID integer primary key autoincrement not null, image text)"
+        let createPhotosTable = "create table if not exists 所有图片 (photoID integer primary key autoincrement not null, image text)"
         
         if DBManager.shared.createDatabase(initialQuery: createPhotosTable, baseName: databaseName) {
-          
             DBManager.shared.insertInitialImages()
         }
         

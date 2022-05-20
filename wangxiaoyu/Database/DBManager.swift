@@ -22,7 +22,6 @@ struct MovieInfo {
 
 class DBManager: NSObject {
     static let shared: DBManager = DBManager()
-    let databaseFileName = "movies.sqlite"
     var pathToDatabase: String!
     var database: FMDatabase!
 
@@ -43,8 +42,6 @@ class DBManager: NSObject {
         pathToDatabase = "\(getDocumentDirectoryPath().absoluteString)/\(baseName)"
         if !FileManager.default.fileExists(atPath: pathToDatabase){
             database = FMDatabase(path: pathToDatabase)
-            
-            
             if database != nil {
                 if database.open(){
 
@@ -67,6 +64,16 @@ class DBManager: NSObject {
         
         return created
     }
+    
+//    func addAlbum(albumTableName: String){
+//        let createPhotosTable = "create table if not exists \(albumTableName) (albumId integer primary key autoincrement not null, image text)"
+//        if createDatabase(initialQuery: createPhotosTable, baseName: "\(albumTableName).sqlite") {
+//            print("created \(albumTableName)")
+//        }
+//    }
+    
+    
+    
     
     func openDatabase() -> Bool {
         if database == nil {
@@ -96,7 +103,6 @@ class DBManager: NSObject {
         }catch{
             
         }
-       
         return count == 0
     }
     
@@ -114,14 +120,12 @@ class DBManager: NSObject {
     
     func insertInitialImages() {
             if openDatabase() {
-                
-                if checkEmptyTable(tableName: "photoTB") {
-                
+                if checkEmptyTable(tableName: "所有图片") {
                 var query = ""
                 for i in 0..<18{
                     let image = UIImage(named: "image\(i)")!
                     let imgString = convertImageToBase64String(img: image)
-                    query  = "insert into photoTB(photoID, image) values (null,'\(imgString)');"
+                    query  = "insert into 所有图片(photoID, image) values (null,'\(imgString)');"
                     
                     do {
                         try database.executeUpdate(query, values: nil)
@@ -136,10 +140,51 @@ class DBManager: NSObject {
     }
     
     
-    func loadImages() -> [PhotoModel] {
+    func getAllTableNames() -> [String] {
+        var names = [String]()
+        
+        if openDatabase() {
+            let query = "SELECT name FROM sqlite_master WHERE type='table';"
+            
+            do{
+                let results = try database.executeQuery(query, values: nil)
+                
+                while results.next() {
+                    let tableName = results.string(forColumn: "name")!
+                    if tableName != "sqlite_sequence"{
+                        names.append(tableName)
+                    }
+                }
+                
+            }catch {
+                print(error.localizedDescription)
+            }
+        }
+        
+        return names
+    }
+    
+    func dropTable(tableName: String){
+        if openDatabase() {
+            if openDatabase() {
+                let query = "drop table \(tableName);"
+                
+                do{
+                    let results = try database.executeQuery(query, values: nil)
+                    
+                }catch {
+                    print(error.localizedDescription)
+                }
+            }
+            
+        }
+    }
+    
+    
+    func loadImages(albumName: String) -> [PhotoModel] {
         var images = [PhotoModel]()
         if openDatabase() {
-            let query = "select * from photoTB order by photoID asc"
+            let query = "select * from \(albumName) order by photoID asc"
 
             do {
                 let results = try database.executeQuery(query, values: nil)
@@ -168,10 +213,10 @@ class DBManager: NSObject {
     
     
     // add to photo db
-    func addImage(imageToAdd: UIImage) {
+    func addImage(imageToAdd: UIImage, albumName: String) {
             if openDatabase() {
                 let imgString = convertImageToBase64String(img: imageToAdd)
-                let query  = "insert into photoTB(photoID, image) values (null,'\(imgString)');"
+                let query  = "insert into \(albumName)(photoID, image) values (null,'\(imgString)');"
                 
                 do {
                     try database.executeUpdate(query, values: nil)
@@ -183,10 +228,10 @@ class DBManager: NSObject {
         }
     }
     
-    func deleteImage(id: Int){
+    func deleteImage(id: Int, albumName: String){
     
         if openDatabase(){
-            let query = "delete from photoTB where photoID = ?"
+            let query = "delete from \(albumName) where photoID = ?"
             do {
                 try database.executeUpdate(query, values: [id])
                 print("deleted")

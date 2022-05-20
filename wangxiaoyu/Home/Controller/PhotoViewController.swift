@@ -214,7 +214,7 @@ class PhotoViewController: UIViewController {
         }
         
         let deleteAction = AlertAction(title: "删除", style: .destructive) { [self] AlertAction  in
-            DBManager.shared.deleteImage(id: imageArray[pageControl.currentPage].photoID!)
+            DBManager.shared.deleteImage(id: imageArray[pageControl.currentPage].photoID!, albumName: "所有图片")
             self.dismiss(animated: true, completion: nil )
             NotificationCenter.default.post(name: Notification.Name.init(rawValue: "deletePhoto"), object: nil )
 
