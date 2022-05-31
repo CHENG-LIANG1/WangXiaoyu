@@ -77,6 +77,10 @@ class PhotoCollectionViewController: UIViewController {
         }
     }
     
+    @objc func morePressed(){
+        
+    }
+    
     
     override func viewWillAppear(_ animated: Bool) {
         imageArray = DBManager.shared.loadImages(albumName: albumTitle)
@@ -108,7 +112,14 @@ class PhotoCollectionViewController: UIViewController {
         
 
         self.title = albumTitle
+        let menuButton = UIButton()
+        let dotsImage = UIImage(systemName: "ellipsis")?.withConfiguration(UIImage.SymbolConfiguration.init(scale: .large)).withRenderingMode(.alwaysOriginal).withTintColor(.black)
+
+        menuButton.setImage(dotsImage, for: .normal)
         
+        let menuBarItem = UIBarButtonItem(customView: menuButton)
+     
+        self.navigationItem.rightBarButtonItem = menuBarItem
         
         view.addSubview(photoCollectionView)
         photoCollectionView.snp.makeConstraints { make in

@@ -107,6 +107,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        
+        let seconds = 1.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            self.screenShotCapsule.isHidden = false
+        }
 
         albums = []
         
