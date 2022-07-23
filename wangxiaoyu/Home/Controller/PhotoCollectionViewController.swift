@@ -21,13 +21,10 @@ class PhotoCollectionViewController: UIViewController {
     
     var selectedImageID = 0
     
+    var selectedImageIDs = [Int]()
+    
     var albumTitle = ""
-    
-    var menu = UIMenu()
-    
-    var menuButton = UIButton()
-    
-    let circleImage = Tools.setUpButtonWithSystemImage(systemName: "circle", width: 15, height: 15, color: .lightGray)
+
     
     let addButton: UIButton = {
         let btn = UIButton()
@@ -58,14 +55,17 @@ class PhotoCollectionViewController: UIViewController {
 
         
     var blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: UIBlurEffect.Style.light))
-    let modeButton: UIButton = {
+    
+    let multiSelectButton: UIButton = {
         let btn = UIButton()
         btn.layer.cornerRadius = 12.5
-        btn.setTitle("Mode", for: .normal)
+        btn.setTitle("Select", for: .normal)
+        btn.setTitle("Cancel", for: .selected)
         btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 14)
         Tools.setHeight(btn, 25)
         Tools.setWidth(btn, 60)
         btn.setBackgroundColor(color: K.brandDark, forState: .normal)
+        btn.setBackgroundColor(color: K.red, forState: .selected)
         return btn
     }()
     
@@ -76,19 +76,13 @@ class PhotoCollectionViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    func multiSelectionMode(){
+    @objc func multiPressed(sender: UIButton){
+        selectedImageIDs = []
         self.addButton.isHidden = !self.addButton.isHidden
         self.doneButton.isHidden = !self.doneButton.isHidden
         self.photoCollectionView.allowsMultipleSelection = !self.photoCollectionView.allowsMultipleSelection
-        
-        setupMenu()
-        
-        self.menuButton.menu = menu
-        
-        if !addButton.isHidden {
-            self.photoCollectionView.deselectAllItems(animated: true)
-        }
-
+        sender.isSelected = !sender.isSelected
+        self.photoCollectionView.reloadData()
     }
     
     func presentPickerController() {
@@ -107,10 +101,6 @@ class PhotoCollectionViewController: UIViewController {
         sender.showAnimation { [self] in
             presentPickerController()
         }
-    }
-    
-    @objc func morePressed(){
-        
     }
     
     
@@ -144,12 +134,9 @@ class PhotoCollectionViewController: UIViewController {
         
 
         self.title = albumTitle
-        menuButton = UIButton()
-        let dotsImage = UIImage(systemName: "ellipsis")?.withConfiguration(UIImage.SymbolConfiguration.init(scale: .large)).withRenderingMode(.alwaysOriginal).withTintColor(.black)
 
-        menuButton.setImage(dotsImage, for: .normal)
         
-        let menuBarItem = UIBarButtonItem(customView: menuButton)
+        let menuBarItem = UIBarButtonItem(customView: multiSelectButton)
      
         self.navigationItem.rightBarButtonItem = menuBarItem
         
@@ -177,11 +164,12 @@ class PhotoCollectionViewController: UIViewController {
         
         doneButton.isHidden = true
         
-        setupMenu()
-        menuButton.menu = menu
-        menuButton.showsMenuAsPrimaryAction = true
+        doneButton.addTarget(self, action: #selector(removePhoto), for: .touchUpInside)
+        
+        multiSelectButton.addTarget(self, action: #selector(multiPressed(sender:)), for: .touchUpInside)
+        
     }
-    
+
     @objc func appResignActive() {
             view.addSubview(blurEffectView)
         }
@@ -190,24 +178,37 @@ class PhotoCollectionViewController: UIViewController {
             blurEffectView.removeFromSuperview()
         }
     
-    func setupMenu(){
-        var title = "多选删除"
-        if self.photoCollectionView.allowsMultipleSelection {
-            title = "取消"
-        }else{
-            title = "多选删除"
+    
+    
+    @objc func removePhoto(){
+
+        let alert = AlertController(title: "是否删除？", message: "", preferredStyle: .alert)
+        let cancelAction = AlertAction(title: "取消", style: .normal) { AlertAction in
+       
         }
         
-        
-        let multiMode = UIAction(title: title, image: nil, attributes: [.destructive]) { (action) in
-            self.multiSelectionMode()
-            self.photoCollectionView.deselectAllItems(animated: false)
+        let deleteAction = AlertAction(title: "删除", style: .destructive) { [self] AlertAction  in
+            
+            for imgId in selectedImageIDs {
+                DBManager.shared.deleteImage(id: imgId, albumName: self.albumTitle)
+            }
+            
+            imageArray = DBManager.shared.loadImages(albumName: albumTitle)
+
+            self.dismiss(animated: true, completion: nil )
+            
+            self.addButton.isHidden = !self.addButton.isHidden
+            self.doneButton.isHidden = !self.doneButton.isHidden
+            self.photoCollectionView.allowsMultipleSelection = !self.photoCollectionView.allowsMultipleSelection
+            multiSelectButton.isSelected = !multiSelectButton.isSelected
             self.photoCollectionView.reloadData()
-         }
+            self.showToast(message: "已删除\(selectedImageIDs.count)张照片", fontSize: 14, bgColor: K.red, textColor: .white, width: 120, height: 30, delayTime: 0.1)
 
+        }
+        alert.addAction(cancelAction)
+        alert.addAction(deleteAction)
 
-         menu = UIMenu(title: "", options: .displayInline, children: [multiMode])
- 
+        alert.present()
     }
 
 }
@@ -232,8 +233,6 @@ extension PhotoCollectionViewController: UICollectionViewDelegate, UICollectionV
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        var skImages = [SKPhoto]()
-//        let photo = SKPhoto.photoWithImage(imageArray[indexPath.item].image!)
         selectedImageIndex = indexPath.item
         selectedImageID = imageArray[indexPath.item].photoID!
         
@@ -247,17 +246,22 @@ extension PhotoCollectionViewController: UICollectionViewDelegate, UICollectionV
             vc.currenttPage = indexPath.item
             vc.imageArray = imageArray
             vc.selectedImageIndex = self.selectedImageIndex
+            vc.albumTitle = self.albumTitle
             present(vc, animated: true, completion: nil)
         }else {
-//            cell.imageView.layer.borderWidth = 10
             cell.toggoleSelection()
+            selectedImageIDs.append(selectedImageID)
+            print(selectedImageIDs)
         }
     }
     
     func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
         let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
-//        cell.imageView.layer.borderWidth = 0
         cell.toggoleSelection()
+        selectedImageID = imageArray[indexPath.item].photoID!
+        selectedImageIDs.remove(at: selectedImageIDs.firstIndex(of: selectedImageID)!)
+        
+        print(selectedImageIDs)
     }
     
     

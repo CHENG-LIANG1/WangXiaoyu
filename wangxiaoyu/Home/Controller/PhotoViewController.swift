@@ -18,6 +18,7 @@ class PhotoViewController: UIViewController {
 
     let moreButton = Tools.setUpButtonWithSystemImage(systemName: "ellipsis.circle.fill", width: 37, height: 35, color: .gray)
     var lastOffset = 0
+    var albumTitle: String?
     
     func createImagePageView(image: UIImage) -> UIView{
         let view = UIView()
@@ -43,8 +44,6 @@ class PhotoViewController: UIViewController {
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(respondToSwipeGesture))
         swipeDown.direction = .down
         self.view.addGestureRecognizer(swipeDown)
-        
-
         
         let tap = UITapGestureRecognizer(target: self, action: #selector(self.dismissView))
         tap.cancelsTouchesInView = false
@@ -142,8 +141,9 @@ class PhotoViewController: UIViewController {
     
     
     @objc func photoDeleted(){
-//        self.showToast(message: "已删除", fontSize: 14, bgColor: K.red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
         self.dismiss(animated: true, completion: nil)
+        
+        self.showToast(message: "已删除", fontSize: 14, bgColor: K.red, textColor: .white, width: 80, height: 30, delayTime: 0.1)
     }
     
     @objc func imageLongPressed(sender: UILongPressGestureRecognizer){

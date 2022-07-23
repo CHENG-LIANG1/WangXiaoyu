@@ -310,6 +310,7 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 
         let vc = PhotoCollectionViewController()
+        
         vc.hidesBottomBarWhenPushed = true
         vc.albumTitle = albums[indexPath.item].name!
         self.screenShotCapsule.isHidden = true

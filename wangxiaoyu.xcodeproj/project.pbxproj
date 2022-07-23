@@ -12,7 +12,6 @@
 		D418986C281D2E4800B67A8A /* MovieCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D418986B281D2E4800B67A8A /* MovieCell.swift */; };
 		D418986E281D365E00B67A8A /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = D418986D281D365E00B67A8A /* libsqlite3.tbd */; };
 		D49AB542281FE23400CA6430 /* PhotoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D49AB541281FE23400CA6430 /* PhotoModel.swift */; };
-		D4A72D1F2839FDE20010D3E4 /* MenuOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4A72D1E2839FDE20010D3E4 /* MenuOptionsViewController.swift */; };
 		D4BA9748288BEB7100B2C037 /* UICollectionView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4BA9747288BEB7100B2C037 /* UICollectionView+Extension.swift */; };
 		D4D05CD52834D43C00F11A18 /* PhotoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CD42834D43C00F11A18 /* PhotoViewController.swift */; };
 		D4D05CD92834ECB600F11A18 /* UIScrollView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D05CD62834ECB500F11A18 /* UIScrollView+.swift */; };
@@ -63,7 +62,6 @@
 		D418986B281D2E4800B67A8A /* MovieCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCell.swift; sourceTree = "<group>"; };
 		D418986D281D365E00B67A8A /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		D49AB541281FE23400CA6430 /* PhotoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoModel.swift; sourceTree = "<group>"; };
-		D4A72D1E2839FDE20010D3E4 /* MenuOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuOptionsViewController.swift; sourceTree = "<group>"; };
 		D4BA9747288BEB7100B2C037 /* UICollectionView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extension.swift"; sourceTree = "<group>"; };
 		D4D05CD42834D43C00F11A18 /* PhotoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoViewController.swift; sourceTree = "<group>"; };
 		D4D05CD62834ECB500F11A18 /* UIScrollView+.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIScrollView+.swift"; sourceTree = "<group>"; };
@@ -150,7 +148,6 @@
 				D4DF7B7727A29FB700C0F5EC /* HomeViewController.swift */,
 				D4D05CD42834D43C00F11A18 /* PhotoViewController.swift */,
 				D4D05CE628373C8800F11A18 /* PhotoCollectionViewController.swift */,
-				D4A72D1E2839FDE20010D3E4 /* MenuOptionsViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -487,7 +484,6 @@
 				D4D05CE52837379E00F11A18 /* AlbumCell.swift in Sources */,
 				D49AB542281FE23400CA6430 /* PhotoModel.swift in Sources */,
 				D4189868281D1D4E00B67A8A /* DBManager.swift in Sources */,
-				D4A72D1F2839FDE20010D3E4 /* MenuOptionsViewController.swift in Sources */,
 				D4D05CD52834D43C00F11A18 /* PhotoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

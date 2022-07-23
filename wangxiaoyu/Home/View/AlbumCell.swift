@@ -13,7 +13,7 @@ class AlbumCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     
     let albumTitleLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = .systemFont(ofSize: 14, weight: .semibold)
+        lbl.font = .systemFont(ofSize: 12, weight: .semibold)
         return lbl
     }()
     

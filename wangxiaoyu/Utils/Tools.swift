@@ -298,7 +298,7 @@ extension UIViewController {
 
     func showToast(message : String, fontSize: Int, bgColor: UIColor, textColor: UIColor, width: CGFloat, height: CGFloat, delayTime: Double) {
 
-        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - width/2, y: -10, width: width, height: height))
+        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - width/2, y: self.view.frame.size.height + 10, width: width, height: height))
         toastLabel.backgroundColor = bgColor
         toastLabel.textColor = textColor
         toastLabel.font = UIFont.systemFont(ofSize: CGFloat(fontSize), weight: .bold)
@@ -310,11 +310,11 @@ extension UIViewController {
         self.view.bringSubviewToFront(toastLabel)
         
         UIView.animate(withDuration: 0.5, delay: TimeInterval(delayTime), options: .curveLinear) {
-        toastLabel.center.y += 51
+        toastLabel.center.y -= 51
     } completion: { (isCompleted) in
         let timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: false, block: { _ in
                 UIView.animate(withDuration: 0.5, delay: TimeInterval(delayTime), options: .curveLinear) {
-                    toastLabel.center.y -= 100
+                    toastLabel.center.y += 100
                 } completion: { (isCompleted) in
                     
                 }
