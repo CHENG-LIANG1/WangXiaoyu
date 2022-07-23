@@ -23,6 +23,12 @@ class PhotoCollectionViewController: UIViewController {
     
     var albumTitle = ""
     
+    var menu = UIMenu()
+    
+    var menuButton = UIButton()
+    
+    let circleImage = Tools.setUpButtonWithSystemImage(systemName: "circle", width: 15, height: 15, color: .lightGray)
+    
     let addButton: UIButton = {
         let btn = UIButton()
         btn.layer.cornerRadius = 30
@@ -33,6 +39,21 @@ class PhotoCollectionViewController: UIViewController {
         btn.setBackgroundColor(color: K.appBlue, forState: .normal)
         return btn
     }()
+    
+    
+    let doneButton: UIButton = {
+        let btn = UIButton()
+        btn.layer.cornerRadius = 30
+        btn.setTitle("Delete", for: .normal)
+        btn.titleLabel?.font = UIFont.init(name: "AvenirNextCondensed-BoldItalic", size: 20)
+        Tools.setHeight(btn, 60)
+        Tools.setWidth(btn, 60)
+        btn.setBackgroundColor(color: K.red, forState: .normal)
+        return btn
+    }()
+    
+    
+    
     let titleLabel = UILabel()
 
         
@@ -55,7 +76,20 @@ class PhotoCollectionViewController: UIViewController {
         self.navigationController?.popViewController(animated: true)
     }
     
-    
+    func multiSelectionMode(){
+        self.addButton.isHidden = !self.addButton.isHidden
+        self.doneButton.isHidden = !self.doneButton.isHidden
+        self.photoCollectionView.allowsMultipleSelection = !self.photoCollectionView.allowsMultipleSelection
+        
+        setupMenu()
+        
+        self.menuButton.menu = menu
+        
+        if !addButton.isHidden {
+            self.photoCollectionView.deselectAllItems(animated: true)
+        }
+
+    }
     
     func presentPickerController() {
         // Set the configuration consistent with the WeChat theme
@@ -72,8 +106,6 @@ class PhotoCollectionViewController: UIViewController {
     @objc func addPressed(sender:UIButton){
         sender.showAnimation { [self] in
             presentPickerController()
-
-           
         }
     }
     
@@ -112,7 +144,7 @@ class PhotoCollectionViewController: UIViewController {
         
 
         self.title = albumTitle
-        let menuButton = UIButton()
+        menuButton = UIButton()
         let dotsImage = UIImage(systemName: "ellipsis")?.withConfiguration(UIImage.SymbolConfiguration.init(scale: .large)).withRenderingMode(.alwaysOriginal).withTintColor(.black)
 
         menuButton.setImage(dotsImage, for: .normal)
@@ -137,6 +169,17 @@ class PhotoCollectionViewController: UIViewController {
             make.bottom.equalTo(view).offset(-100)
         }
         
+        view.addSubview(doneButton)
+        doneButton.snp.makeConstraints { make in
+            make.right.equalTo(view).offset(-25)
+            make.bottom.equalTo(view).offset(-100)
+        }
+        
+        doneButton.isHidden = true
+        
+        setupMenu()
+        menuButton.menu = menu
+        menuButton.showsMenuAsPrimaryAction = true
     }
     
     @objc func appResignActive() {
@@ -146,6 +189,26 @@ class PhotoCollectionViewController: UIViewController {
     @objc func appBecameActive() {
             blurEffectView.removeFromSuperview()
         }
+    
+    func setupMenu(){
+        var title = "多选删除"
+        if self.photoCollectionView.allowsMultipleSelection {
+            title = "取消"
+        }else{
+            title = "多选删除"
+        }
+        
+        
+        let multiMode = UIAction(title: title, image: nil, attributes: [.destructive]) { (action) in
+            self.multiSelectionMode()
+            self.photoCollectionView.deselectAllItems(animated: false)
+            self.photoCollectionView.reloadData()
+         }
+
+
+         menu = UIMenu(title: "", options: .displayInline, children: [multiMode])
+ 
+    }
 
 }
 
@@ -161,6 +224,9 @@ extension PhotoCollectionViewController: UICollectionViewDelegate, UICollectionV
         cell.imageView.image = imageArray[indexPath.item].image!
         cell.imageView.layer.cornerRadius = CGFloat(10)
         
+        cell.isSelected = false
+        cell.toggoleSelection()
+        
         return cell
         
     }
@@ -170,30 +236,30 @@ extension PhotoCollectionViewController: UICollectionViewDelegate, UICollectionV
 //        let photo = SKPhoto.photoWithImage(imageArray[indexPath.item].image!)
         selectedImageIndex = indexPath.item
         selectedImageID = imageArray[indexPath.item].photoID!
-//
-//        skImages.append(photo)
-//        let browser = SKPhotoBrowser(photos: skImages)
-//
-//        browser.delegate = self
-//
-//        present(browser, animated: true, completion: nil)
-//        browser.updateDeleteButton(UIImage(named: "delete")!, size: CGSize(width: 60, height: 60))
-//
-        let image = imageArray[indexPath.item].image
-        let vc = PhotoViewController()
-        vc.modalPresentationStyle = .fullScreen
-        vc.modalTransitionStyle = .coverVertical
-        vc.currenttPage = indexPath.item
-        vc.imageArray = imageArray
-        vc.selectedImageIndex = self.selectedImageIndex
-//        let vc = PhotoCollectionViewController()
-//        vc.modalPresentationStyle = .fullScreen
-//        vc.modalTransitionStyle = .crossDissolve
-//        vc.currentItem = indexPath.item
-//        vc.photoArray = imageArray
-        present(vc, animated: true, completion: nil)
         
+        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
+        
+        if !self.photoCollectionView.allowsMultipleSelection{
+            let image = imageArray[indexPath.item].image
+            let vc = PhotoViewController()
+            vc.modalPresentationStyle = .fullScreen
+            vc.modalTransitionStyle = .coverVertical
+            vc.currenttPage = indexPath.item
+            vc.imageArray = imageArray
+            vc.selectedImageIndex = self.selectedImageIndex
+            present(vc, animated: true, completion: nil)
+        }else {
+//            cell.imageView.layer.borderWidth = 10
+            cell.toggoleSelection()
+        }
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didDeselectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! PhotoCell
+//        cell.imageView.layer.borderWidth = 0
+        cell.toggoleSelection()
+    }
+    
     
 
     

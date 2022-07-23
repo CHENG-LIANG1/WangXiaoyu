@@ -24,7 +24,9 @@ class AlbumCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         return lbl
     }()
     
-    let moreActionsButton = Tools.setUpButtonWithSystemImage(systemName: "ellipsis", width: 30, height: 30, color: .black)
+    var menu = UIMenu()
+    
+    let moreActionsButton = Tools.setUpButtonWithSystemImage(systemName: "ellipsis", width: 24, height: 8, color: .black)
     
     let containerView = UIView()
     
@@ -35,6 +37,9 @@ class AlbumCell: UICollectionViewCell, UIGestureRecognizerDelegate {
 
     override init(frame: CGRect) {
         super.init(frame: .zero)
+        
+
+        
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         
@@ -51,17 +56,45 @@ class AlbumCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         }
         Tools.setHeight(imageView, Float(imageWidth))
         
+
         containerView.addSubview(albumTitleLabel)
         albumTitleLabel.snp.makeConstraints { make in
             make.left.equalTo(containerView)
-            make.top.equalTo(imageView.snp_bottomMargin).offset(12)
+            make.top.equalTo(imageView.snp_bottomMargin).offset(18)
         }
+        
+        containerView.addSubview(moreActionsButton)
+        moreActionsButton.snp.makeConstraints { make in
+            make.right.equalTo(containerView)
+            make.centerY.equalTo(albumTitleLabel)
+        }
+        
         
         containerView.addSubview(photoNumLabel)
         photoNumLabel.snp.makeConstraints { make in
             make.left.equalTo(albumTitleLabel)
             make.top.equalTo(albumTitleLabel.snp_bottomMargin).offset(12)
         }
+        
+        setupMenu()
+        
+        moreActionsButton.menu = menu
+        moreActionsButton.showsMenuAsPrimaryAction = true
+    }
+    
+    func setupMenu(){
+        let usersItem = UIAction(title: "删除", image: nil, attributes: [.destructive]) { (action) in
+
+            print("Deleting...")
+            DBManager.shared.deleteTable(tableName: self.albumTitleLabel.text!)
+            NotificationCenter.default.post(name: NSNotification.Name(rawValue: "deleteAlbum"), object: nil)
+
+         }
+        
+        
+        
+ 
+         menu = UIMenu(title: "", options: .displayInline, children: [usersItem])
         
     }
     

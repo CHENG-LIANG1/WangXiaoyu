@@ -15,26 +15,16 @@ import Toast_Swift
 
 class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UINavigationControllerDelegate {
 
-
-
-    
     let albumCollectionView = Tools.setUpCollectionView(24, 12, Int(K.screenWidth - 64) / 7 * 3, Int(K.screenWidth - 64) / 3, vertical: true)
 
-//    lazy var imageArray:[PhotoModel] = []
-//    
-//    var selectedImageIndex = 0
-//    
-//    var lastImageIndex = 0
-//    
-//    var selectedImageID = 0a
-    
-    
     var mode = UIView.ContentMode.scaleAspectFit
     var modeRadius = 0
 
     var blurEffectView = UIVisualEffectView(effect: UIBlurEffect(style: .extraLight))
     
     var albumNameTextField = UITextField()
+    
+ 
 
     var appBar: UIView = {
         let view = UIView()
@@ -48,14 +38,6 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
             make.left.equalTo(view).offset(20)
             make.bottom.equalTo(view).offset(0)
         }
-        
-
-//        view.addSubview(modeButton)
-//        modeButton.addTarget(self, action: #selector(modePressed(sender:)), for: .touchUpInside)
-//        modeButton.snp.makeConstraints { make in
-//            make.bottom.equalTo(view).offset(-4)
-//            make.right.equalTo(view).offset(-16)
-//        }
         
         Tools.setHeight(view, 100)
         
@@ -112,9 +94,26 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             self.screenShotCapsule.isHidden = false
         }
-
-        albums = []
         
+        updateCollectionView()
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.navigationController?.setNavigationBarHidden(true, animated: false)
+        NotificationCenter.default.addObserver(self, selector: #selector(deleteAlbum(note:)), name: NSNotification.Name(rawValue: "deleteAlbum"), object: nil)
+        
+        configureViews()
+        layoutViews()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+    
+    func updateCollectionView(){
+        albums = []
+        albumTitles = DBManager.shared.getAllTableNames()
         for title in albumTitles {
             let rows = DBManager.shared.getNumOfRows(tableName: title)
             let coverImamge = DBManager.shared.getTheFirstImage(tableName: title)
@@ -125,14 +124,10 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         self.albumCollectionView.reloadData()
     }
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(true, animated: false)
-        albumTitles = DBManager.shared.getAllTableNames()
-        
-       
-        configureViews()
-        layoutViews()
+    @objc func deleteAlbum(note: Notification){
+
+        updateCollectionView()
+        self.albumCollectionView.reloadData()
     }
     
     func configureViews(){
@@ -170,6 +165,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
 
         notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.didBecomeActiveNotification, object: nil)
         notificationCenter.addObserver(self, selector: #selector(appBecameActive), name: UIApplication.willEnterForegroundNotification, object: nil)
+        
+
     }
     
     func layoutViews(){
@@ -202,6 +199,8 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         }
         
     }
+    
+
     
     override var shouldAutorotate: Bool{
         return false
@@ -250,7 +249,11 @@ class HomeViewController: UIViewController, UIImagePickerControllerDelegate & UI
         alert.customSubview = subview
         alert.addButton("确认") { [self] in
             print(albumNameTextField.text)
-            if albumTitles.contains(albumNameTextField.text!) {
+            if albumNameTextField.text == ""{
+                self.view.makeToast("创建失败！请输入相册名称", duration: 3.0, position: .center)
+            }
+            
+            else if albumTitles.contains(albumNameTextField.text!) {
                 self.view.makeToast("创建失败！相册已存在", duration: 3.0, position: .center)
                 
             }else{
@@ -314,7 +317,4 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
 
         
     }
-    
-
-    
 }

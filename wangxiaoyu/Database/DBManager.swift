@@ -84,7 +84,6 @@ class DBManager: NSObject {
     
     
     
-    
     func openDatabase() -> Bool {
         if database == nil {
             if FileManager.default.fileExists(atPath: pathToDatabase) {
@@ -301,6 +300,13 @@ class DBManager: NSObject {
                 
             }
             
+        }
+    }
+    
+    func deleteTable(tableName: String){
+        if openDatabase() {
+            let query = "drop table \(tableName)"
+            database.executeStatements(query)
         }
     }
 

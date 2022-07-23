@@ -10,6 +10,8 @@ import UIKit
 class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
     let imageView = UIImageView()
     
+
+    
     override func prepareForReuse() {
         super.prepareForReuse()
         
@@ -24,6 +26,22 @@ class PhotoCell: UICollectionViewCell, UIGestureRecognizerDelegate {
         contentView.addSubview(imageView)
         imageView.snp.makeConstraints { make in
             make.size.edges.equalTo(contentView)
+        }
+        
+        
+        
+//        let coloredView = UIView(frame: bounds)
+//        coloredView.backgroundColor = UIColor.red
+//        self.selectedBackgroundView = coloredView
+
+
+    }
+    
+    func toggoleSelection(){
+        if self.isSelected {
+            self.imageView.layer.borderWidth = 5
+        }else{
+            self.imageView.layer.borderWidth = 0
         }
     }
     
